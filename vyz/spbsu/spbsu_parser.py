@@ -138,6 +138,7 @@ for link in links:
                 'Оригинал': 'КВОТА'
             }
         k += 1
-
-with open(r"C:/admlist/СПбГУ/spb.json", 'w') as fp:
+os.chdir('..')    
+os.chdir('..')
+with open('./out_json/spbsu.json', 'w', encoding='utf-8') as fp:
     json.dump(needed_data, fp, indent=4, ensure_ascii=False)
