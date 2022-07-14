@@ -38,7 +38,7 @@ def more(some_data):
     else:
         return [vi(some_data[8]), vi(some_data[9])]
 
-
+print('SPBSU')
 # r = requests.get('https://cabinet.spbu.ru/Lists/1k_EntryLists/list_846c2a25-562d-4005-9a39-a54804b939e7.html')
 # src = r.content
 # save_file_at_dir('C:/admlist/СПбГУ', 'first.html', src)
@@ -142,3 +142,4 @@ os.chdir('..')
 os.chdir('..')
 with open('./out_json/spbsu.json', 'w', encoding='utf-8') as fp:
     json.dump(needed_data, fp, indent=4, ensure_ascii=False)
+print('DONE\n')
