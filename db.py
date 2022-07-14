@@ -4,7 +4,7 @@ import json
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="Snakemsu1337",
+    passwd="passwd(example)",
     database='testdb'
 )
 
