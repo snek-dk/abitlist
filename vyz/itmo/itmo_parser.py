@@ -6,6 +6,8 @@ def itmo_parser():
     with open('url_id.json', 'r', encoding='utf-8') as input_id:
         urls_id = json.load(input_id)['id_fak']
     k = 0
+    os.chdir('..')
+    os.chdir('..') 
     json_dict = dict()
     name_qu = {'without_entry_tests':'БВИ',
                'by_unusual_quota':'ОП',
@@ -104,8 +106,7 @@ def itmo_parser():
 
 
 
-    os.chdir('..')
-    os.chdir('..')        
+           
     with open('./out_json/itmo.json', 'w', encoding='utf-8') as out_file:
         json.dump(json_dict, out_file,indent=4, ensure_ascii=False)
     print('DONE\n')
