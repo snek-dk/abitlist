@@ -9,4 +9,3 @@ for folder in os.listdir('./vyz'):
     os.system('cmd /c python ' + folder + '_parser.py')
     #os. _exit()
     os.chdir('..'); os.chdir('..')
-###
