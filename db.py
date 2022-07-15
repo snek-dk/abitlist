@@ -4,7 +4,7 @@ import json
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="passwd(example1234)",
+    passwd="passwd",
     database='testdb'
 )
 
@@ -31,13 +31,14 @@ class abitlist:
         if len(params) == 0:
             self.params = '(id INTEGER PRIMARY KEY AUTO_INCREMENT, ВУЗ VARCHAR(64), Направление VARCHAR(255), ОП VARCHAR(255),'
             self.params += 'Форма_обучения VARCHAR(128), Основа_обучения VARCHAR(128), СНИЛС_УК VARCHAR(128), Конкурс VARCHAR(128),'
-            self.params += 'СУММА INT, СУММА_БЕЗ_ИД INT, ВИ_1 INT, ВИ_2 INT, ВИ_3 INT, ИД INT, СОГЛАСИЕ VARCHAR(5), ОРИГИНАЛ VARCHAR(5))'
+            self.params += 'СУММА INT, СУММА_БЕЗ_ИД INT, ВИ_1 INT, ВИ_2 INT, ВИ_3 INT, ВИ_4 INT, ВИ_5 INT,'
+            self.params += 'ИД INT, СОГЛАСИЕ VARCHAR(5), ОРИГИНАЛ VARCHAR(5))'
         else:
             self.params = params
         self.commit = commit
         if len(form_for_insert) == 0:
             self.form_for_insert = '(ВУЗ, Направление, ОП, Форма_обучения, Основа_обучения, СНИЛС_УК, Конкурс,'
-            self.form_for_insert += 'СУММА, СУММА_БЕЗ_ИД, ВИ_1, ВИ_2, ВИ_3, ИД, СОГЛАСИЕ, ОРИГИНАЛ)'
+            self.form_for_insert += 'СУММА, СУММА_БЕЗ_ИД, ВИ_1, ВИ_2, ВИ_3, ВИ_4, ВИ_5, ИД, СОГЛАСИЕ, ОРИГИНАЛ)'
         else:
             self.form_for_insert = form_for_insert
 
@@ -59,18 +60,19 @@ class abitlist:
                 student['Форма_обучения'], student['Основа_обучения'],
                 student['СНИЛС_УК'], student['Конкурс'], student['СУММА'],
                 student['СУММА_БЕЗ_ИД'], student['ВИ_1'], student['ВИ_2'],
-                student['ВИ_3'], student['ИД'], student['Согласие'], student['Оригинал'])
+                student['ВИ_3'], student['ВИ_4'], student['ВИ_5'],
+                student['ИД'], student['Согласие'], student['Оригинал'])
         return data
 
     def sqlInsert(self, student):
         # form = '(ВУЗ, Направление, ОП, Форма_обучения, Основа_обучения, СНИЛС_УК, Конкурс,'
         # form += 'СУММА, СУММА_БЕЗ_ИД, ВИ_1, ВИ_2, ВИ_3, ИД, СОГЛАСИЕ, ОРИГИНАЛ)'
-        if len(student['СУММА']) == 0: student['СУММА'] = 0
-        if len(student['СУММА_БЕЗ_ИД']) == 0: student['СУММА_БЕЗ_ИД'] = 0
-        if len(student['ВИ_1']) == 0: student['ВИ_1'] = 0
-        if len(student['ВИ_2']) == 0: student['ВИ_2'] = 0
-        if len(student['ВИ_3']) == 0: student['ВИ_3'] = 0
-        if len(student['ИД']) == 0: student['ИД'] = 0
+        # if len(student['СУММА']) == 0: student['СУММА'] = 0
+        # if len(student['СУММА_БЕЗ_ИД']) == 0: student['СУММА_БЕЗ_ИД'] = 0
+        # if len(student['ВИ_1']) == 0: student['ВИ_1'] = 0
+        # if len(student['ВИ_2']) == 0: student['ВИ_2'] = 0
+        # if len(student['ВИ_3']) == 0: student['ВИ_3'] = 0
+        # if len(student['ИД']) == 0: student['ИД'] = 0
         query_for_insert = f"INSERT INTO global {self.form_for_insert} VALUES "
         query_for_insert += '(' + '%s,' * (len(self.form_for_insert.split(',')) - 1) + '%s)'
         self.mycursor.execute(query_for_insert, self.to_needed_form(student))
@@ -101,13 +103,13 @@ class abitlist:
 
     def row_is_in_table(self, student):
         self.mycursor.execute(f"SELECT EXISTS(SELECT id FROM global WHERE (ОП = '{student['ОП']}')"
-                         f"AND (СНИЛС_УК = '{student['СНИЛС_УК']}') AND (ВУЗ = '{student['ВУЗ']}'))")
+                              f"AND (СНИЛС_УК = '{student['СНИЛС_УК']}') AND (ВУЗ = '{student['ВУЗ']}'))")
         return self.mycursor.fetchone()[0]
 
     def process_the_data(self):
         for i in range(len(self.students)):
             index = str(i)
-            if not(self.row_is_in_table(self.students[index])):
+            if not (self.row_is_in_table(self.students[index])):
                 self.sqlInsert(self.students[index])
             else:
                 self.sqlUpdate(self.students[index])
