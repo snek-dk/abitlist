@@ -14,8 +14,6 @@ def itmo_parser():
                'general_competition': 'ОК'}
     name_o = {'budget':'госбюджет',
               'contract':'контракт'}
-    os.chdir('..')    
-    os.chdir('..')
     
     def trans_snils(snils, case):
         if snils != None:
@@ -107,7 +105,7 @@ def itmo_parser():
 
 
                 
-    with open('./out_json/itmo.json', 'w', encoding='utf-8') as out_file:
+    with open('/../../out_json/itmo.json', 'w', encoding='utf-8') as out_file:
         json.dump(json_dict, out_file,indent=4, ensure_ascii=False)
     print('DONE\n')
 
