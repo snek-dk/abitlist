@@ -27,7 +27,7 @@ def itmo_parser():
 
         for type_o, url in urls.items():
             
-            res = requests.get(url, verify='/../../certificate/certs.pem').json()    
+            res = requests.get(url, verify='./certificate/certs.pem').json()    
             fakultet = res['result']['direction']['direction_title']
             if len(res['result'].keys()) == 7:
                print(fakultet, type_o, k) ## debug!!! 
