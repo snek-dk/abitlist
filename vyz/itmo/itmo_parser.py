@@ -49,6 +49,8 @@ def itmo_parser():
                                     'ВИ_1': '0',
                                     'ВИ_2': '0',
                                     'ВИ_3': '0',
+                                    'ВИ_4': None,
+                                    'ВИ_5': None,
                                     'ИД': str(abbi['ia_scores']) if abbi['ia_scores']!= None else '0',
                                     'Согласие': 'ДА' if abbi['send_agreement'] else 'НЕТ',
                                     'Оригинал': 'ДА' if abbi['is_send_original'] else 'НЕТ'                            
