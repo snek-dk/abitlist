@@ -58,10 +58,10 @@ class abitlist:
     def to_needed_form(self, student):
         data = (student['ВУЗ'], student['Направление'], student['ОП'],
                 student['Форма_обучения'], student['Основа_обучения'],
-                student['СНИЛС_УК'], student['Конкурс'], str(student['СУММА']),
-                str(student['СУММА_БЕЗ_ИД']), str(student['ВИ_1']), str(student['ВИ_2']),
-                str(student['ВИ_3']), str(student['ВИ_4']), str(student['ВИ_5']),
-                str(student['ИД']), student['Согласие'], student['Оригинал'])
+                student['СНИЛС_УК'], student['Конкурс'], student['СУММА'],
+                student['СУММА_БЕЗ_ИД'], student['ВИ_1'], student['ВИ_2'],
+                student['ВИ_3'], student['ВИ_4'], student['ВИ_5'],
+                student['ИД'], student['Согласие'], student['Оригинал'])
         return data
 
     def sqlInsert(self, student):
@@ -75,9 +75,9 @@ class abitlist:
             mydb.commit()
 
     def sqlUpdate(self, student, query_for_update=None):
-        query_for_update = f"UPDATE global SET СУММА = {str(student['СУММА'])}, СУММА_БЕЗ_ИД = {str(student['СУММА_БЕЗ_ИД'])}," \
-                           f"ВИ_1 = {str(student['ВИ_1'])}, ВИ_2 = {str(student['ВИ_2'])}, ВИ_3 = {str(student['ВИ_3'])}," \
-                           f"ИД = {str(student['ИД'])}, СОГЛАСИЕ = '{student['Согласие']}', ОРИГИНАЛ = '{student['Оригинал']}' " \
+        query_for_update = f"UPDATE global SET СУММА = {student['СУММА']}, СУММА_БЕЗ_ИД = {student['СУММА_БЕЗ_ИД']}," \
+                           f"ВИ_1 = {student['ВИ_1']}, ВИ_2 = {student['ВИ_2']}, ВИ_3 = {student['ВИ_3']}," \
+                           f"ИД = {student['ИД']}, СОГЛАСИЕ = '{student['Согласие']}', ОРИГИНАЛ = '{student['Оригинал']}' " \
                            f"WHERE (ОП = '{student['ОП']}') AND (СНИЛС_УК = '{student['СНИЛС_УК']}') AND (ВУЗ = '{student['ВУЗ']}')" \
                            f" AND (id >= 0)"  # в одном вузе каждое ОП уникальное, так что WHERE по ОП жестче, чем по направлению; id >= 0 для SQL safe update
         self.mycursor.execute(query_for_update)
