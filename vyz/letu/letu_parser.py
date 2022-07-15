@@ -7,7 +7,7 @@ def letu_parser():
     
     k = 0
     
-    with open('./vyz/letu/source.json', 'r', encoding='utf-8') as input_file:
+    with open('source.json', 'r', encoding='utf-8') as input_file:
         input_json = json.load(input_file)
         
     for type_o in input_json.keys():
@@ -46,9 +46,7 @@ def letu_parser():
 
                         k += 1
                             
-    #os.chdir('..')    
-    #os.chdir('..')
-    with open('./out_json/letu.json', 'w', encoding='utf-8') as out_file:
+    with open('/../../out_json/letu.json', 'w', encoding='utf-8') as out_file:
             json.dump(json_dict, out_file,indent=4, ensure_ascii=False)
     print('DONE\n')
 
