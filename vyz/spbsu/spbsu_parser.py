@@ -2,8 +2,6 @@ import requests
 import os
 from bs4 import BeautifulSoup
 import json
-import pprint
-import db
 
 
 def save_file_at_dir(dir_path: str, filename: str, file_content, mode='wb'):
