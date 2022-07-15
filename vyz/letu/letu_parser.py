@@ -47,8 +47,10 @@ def letu_parser():
                             }
 
                         k += 1
-                            
-    with open('/../../out_json/letu.json', 'w', encoding='utf-8') as out_file:
+    os.chdir('..')
+    os.chdir('..')      
+
+    with open('./out_json/letu.json', 'w', encoding='utf-8') as out_file:
             json.dump(json_dict, out_file,indent=4, ensure_ascii=False)
     print('DONE\n')
 
