@@ -136,7 +136,9 @@ for link in links:
                 'Оригинал': 'КВОТА'
             }
         k += 1
-
-with open('/../../out_json/spbsu.json', 'w', encoding='utf-8') as fp:
+        print(k)
+os.chdir('..')
+os.chdir('..')
+with open('./out_json/spbsu.json', 'w', encoding='utf-8') as fp:
     json.dump(needed_data, fp, indent=4, ensure_ascii=False)
 print('DONE\n')
