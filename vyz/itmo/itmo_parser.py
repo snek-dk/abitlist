@@ -44,12 +44,12 @@ def itmo_parser():
                                     'Основа_обучения': (name_o[type_o] + ' ' + name_qu[quota]).strip(),
                                     'СНИЛС_УК': trans_snils(abbi['snils'], abbi['case_number']),
                                     'Конкурс': abbi['exam_type'],
-                                    'СУММА': abbi['total_scores'] if abbi['total_scores'] != None else 0,
-                                    'СУММА_БЕЗ_ИД': int(abbi['total_scores'] if abbi['total_scores'] != None else 0) - int(abbi['ia_scores'] if abbi['ia_scores']!= None else 0),
-                                    'ВИ_1': 0,
-                                    'ВИ_2': 0,
-                                    'ВИ_3': 0,
-                                    'ИД': abbi['ia_scores'] if abbi['ia_scores']!= None else 0,
+                                    'СУММА': str(abbi['total_scores']) if abbi['total_scores'] != None else '0',
+                                    'СУММА_БЕЗ_ИД': str(int(abbi['total_scores'] if abbi['total_scores'] != None else 0) - int(abbi['ia_scores'] if abbi['ia_scores']!= None else 0)),
+                                    'ВИ_1': '0',
+                                    'ВИ_2': '0',
+                                    'ВИ_3': '0',
+                                    'ИД': str(abbi['ia_scores']) if abbi['ia_scores']!= None else '0',
                                     'Согласие': 'ДА' if abbi['send_agreement'] else 'НЕТ',
                                     'Оригинал': 'ДА' if abbi['is_send_original'] else 'НЕТ'                            
                                     } 
@@ -57,14 +57,14 @@ def itmo_parser():
                         if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:   
                             predmets = [i for i in list(abbi['disciplines_scores'].values()) if str(i).isdigit()]
                             if len(predmets) == 3:
-                                json_dict[str(k)]['ВИ_1'] = predmets[0]
-                                json_dict[str(k)]['ВИ_2'] = predmets[1]
-                                json_dict[str(k)]['ВИ_3'] = predmets[2]
+                                json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+                                json_dict[str(k)]['ВИ_2'] = str(predmets[1])
+                                json_dict[str(k)]['ВИ_3'] = str(predmets[2])
                             elif len(predmets) == 2:
-                                json_dict[str(k)]['ВИ_1'] = predmets[0]
-                                json_dict[str(k)]['ВИ_2'] = predmets[1]
+                                json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+                                json_dict[str(k)]['ВИ_2'] = str(predmets[1])
                             elif len(predmets) == 1:
-                                json_dict[str(k)]['ВИ_1'] = predmets[0]
+                                json_dict[str(k)]['ВИ_1'] = str(predmets[0])
                             
                         k += 1
 
@@ -79,12 +79,14 @@ def itmo_parser():
                                     'Основа_обучения': 'контракт',
                                     'СНИЛС_УК': trans_snils(abbi['snils'], abbi['case_number']),
                                     'Конкурс': abbi['exam_type'],
-                                    'СУММА': abbi['total_scores'] if abbi['total_scores'] != None else 0,
-                                    'СУММА_БЕЗ_ИД': int(abbi['total_scores'] if abbi['total_scores'] != None else 0) - int(abbi['ia_scores'] if abbi['ia_scores']!= None else 0),
-                                    'ВИ_1': 0,
-                                    'ВИ_2': 0,
-                                    'ВИ_3': 0,
-                                    'ИД': abbi['ia_scores'] if abbi['ia_scores']!= None else 0,
+                                    'СУММА': str(abbi['total_scores']) if abbi['total_scores'] != None else '0',
+                                    'СУММА_БЕЗ_ИД': str(int(abbi['total_scores'] if abbi['total_scores'] != None else 0) - int(abbi['ia_scores'] if abbi['ia_scores']!= None else '0')),
+                                    'ВИ_1': '0',
+                                    'ВИ_2': '0',
+                                    'ВИ_3': '0',
+                                    'ВИ_4': None,
+                                    'ВИ_5': None,
+                                    'ИД': str(abbi['ia_scores']) if abbi['ia_scores']!= None else '0',
                                     'Согласие': 'ДА' if abbi['send_agreement'] else 'НЕТ',
                                     'Оригинал': 'ДА' if abbi['is_send_original'] else 'НЕТ'                            
                                     } 
@@ -92,14 +94,14 @@ def itmo_parser():
                     if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:   
                         predmets = [i for i in list(abbi['disciplines_scores'].values()) if str(i).isdigit()]
                         if len(predmets) == 3:
-                            json_dict[str(k)]['ВИ_1'] = predmets[0]
-                            json_dict[str(k)]['ВИ_2'] = predmets[1]
-                            json_dict[str(k)]['ВИ_3'] = predmets[2]
+                            json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+                            json_dict[str(k)]['ВИ_2'] = str(predmets[1])
+                            json_dict[str(k)]['ВИ_3'] = str(predmets[2])
                         elif len(predmets) == 2:
-                            json_dict[str(k)]['ВИ_1'] = predmets[0]
-                            json_dict[str(k)]['ВИ_2'] = predmets[1]
+                            json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+                            json_dict[str(k)]['ВИ_2'] = str(predmets[1])
                         elif len(predmets) == 1:
-                            json_dict[str(k)]['ВИ_1'] = predmets[0]
+                            json_dict[str(k)]['ВИ_1'] = str(predmets[0])
                             
                     k += 1    
 
