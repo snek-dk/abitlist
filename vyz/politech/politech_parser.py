@@ -1,9 +1,12 @@
 from re import U
 import requests, json, os
+requests.packages.urllib3.disable_warnings()
 
 url_temp = ['https://enroll.spbstu.ru/back/api/', '?trajectory=1']
 level_edu = {'Бакалавр':'&training_level=2'}#, 'Специалитет':'&training_level=5'}
 count = 0
+temp_dict = dict()
+
 for keys_level_edu, values_level_edu in level_edu.items():
     url = ''.join(url_temp[0] + 'formEducation' + url_temp[1])
     parametrs_url = [values_level_edu]
@@ -34,16 +37,46 @@ for keys_level_edu, values_level_edu in level_edu.items():
           for key_dir_edu, values_dir_edu in dir_edu.items():           
             if len(parametrs_url) == 5: parametrs_url[-1] = values_dir_edu
             else: parametrs_url.append(values_dir_edu)
-            url = 'https://enroll.spbstu.ru/back/api/statements/lists-applicants?' + ''.join(parametrs_url)[1:] + '&benefits=0&page=1&per_page=1000&trajectory=1'
+
+            url = 'https://enroll.spbstu.ru/back/api/statements/lists-applicants?' + ''.join(parametrs_url)[1:] + '&benefits=0&page=1&per_page=5&trajectory=1'
+            
             res = requests.get(url, verify=False).json()['data']
-            temp_dict = dict()
-            print(parametrs_url)
-            for abb in res:             
+            
+            
+            for abb in res:
                 #snils = abb['users']['snils']
                 #print(parametrs_url)
+                #abb['ege']["result_ege"]
+                #temp_dict[str(count)] = {
+                #            'ВУЗ': 'Политех',
+                #            'Направление': (fak_num + ' ' + fak_name).strip(),
+                 #           'ОП': (fak_num + ' ' + fak_name).strip(),
+                  #          'Форма_обучения': keys_form_edu,
+                   #         'Основа_обучения': keys_gfa,
+                    #        'СНИЛС_УК': abb['users']['snils']
+                 #           'Конкурс': data[3],
+                  #          'СУММА': str(data[4]),
+                   #         'СУММА_БЕЗ_ИД': str(data[5]),
+                    #        'ВИ_1': ,
+                      #      'ВИ_2': str(data[7]),
+                     #       'ВИ_3': str(data[8]),
+                 #           'ВИ_4': None,
+                  #          'ВИ_5': None,
+                   #         'ИД': str(data[9]),
+                    #        'Согласие': data[12],
+                     #       'Оригинал': data[11]
+                  #}
+
+
+                   
+                
+
                 temp_dict[str(count)] = abb
                 count += 1
 
-            with open('vyz/politech/out.json','w',encoding='utf-8') as out:
-                json.dump(temp_dict ,out,ensure_ascii=False, indent=4)
-            exit()
+                print(count)
+
+print(len(temp_dict))
+with open('vyz/politech/out.json', 'w', encoding='utf-8') as out_file:
+  json.dump(temp_dict, out_file, ensure_ascii=False, indent=4)
+            

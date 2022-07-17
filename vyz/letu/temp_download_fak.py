@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+requests.packages.urllib3.disable_warnings()
 
 def download():
     with open('out.html','w',encoding='utf-8') as out:
