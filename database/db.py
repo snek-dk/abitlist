@@ -97,4 +97,5 @@ class abitlist:
                 self.sqlInsert(self.students[index])
             else:
                 self.sqlUpdate(self.students[index])
-        mydb.commit()
+        if self.commit:
+            mydb.commit()
