@@ -28,9 +28,14 @@ def itmo_parser():
                'contract':'https://abitlk.itmo.ru/api/v1/9e2eee80b266b31c8d65f1dd3992fa26eb8b4c118ca9633550889a8ff2cac429/rating/bachelor/' + 'contract' +'?program_id=' + url_id + '&manager_key='}
 
         for type_o, url in urls.items():
-            
-            res = requests.get(url, verify='./certificate/certs.pem').json()    
-            fakultet = res['result']['direction']['direction_title']
+            time.sleep(0.2)
+            head = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'}
+            res = requests.get(url, headers=head, verify='./certificate/certs.pem').json()
+            try:
+                fakultet = res['result']['direction']['direction_title']
+            except:
+                print('ссылка битая')
+                continue
             if len(res['result'].keys()) == 7:
                print(fakultet, type_o, k) ## debug!!! 
                for quota in name_qu.keys():
@@ -55,22 +60,32 @@ def itmo_parser():
                                     'Согласие': 'ДА' if abbi['send_agreement'] else 'НЕТ',
                                     'Оригинал': 'ДА' if abbi['is_send_original'] else 'НЕТ'                            
                                     } 
-                         
-                        if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:   
-                            predmets = [i for i in list(abbi['disciplines_scores'].values()) if str(i).isdigit()]
-                            if len(predmets) == 3:
-                                json_dict[str(k)]['ВИ_1'] = str(predmets[0])
-                                json_dict[str(k)]['ВИ_2'] = str(predmets[1])
-                                json_dict[str(k)]['ВИ_3'] = str(predmets[2])
-                            elif len(predmets) == 2:
-                                json_dict[str(k)]['ВИ_1'] = str(predmets[0])
-                                json_dict[str(k)]['ВИ_2'] = str(predmets[1])
-                            elif len(predmets) == 1:
-                                json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+
+                        if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:
+                            for keys_disp, values_disp in abbi['disciplines_scores'].items():
+                                if 'матем' in str(keys_disp).lower():
+                                    json_dict[str(k)]['ВИ_1'] = str(values_disp)
+                                elif 'русс' in str(keys_disp).lower():
+                                    json_dict[str(k)]['ВИ_3'] = str(values_disp)
+                                else:
+                                    json_dict[str(k)]['ВИ_2'] = str(values_disp)
+
+                        # if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:   
+                        #     predmets = [i for i in list(abbi['disciplines_scores'].values()) if str(i).isdigit()]
+                        #     if len(predmets) == 3:
+                        #         json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+                        #         json_dict[str(k)]['ВИ_2'] = str(predmets[1])
+                        #         json_dict[str(k)]['ВИ_3'] = str(predmets[2])
+                        #     elif len(predmets) == 2:
+                        #         json_dict[str(k)]['ВИ_1'] = str(predmets[0])
+                        #         json_dict[str(k)]['ВИ_2'] = str(predmets[1])
+                        #     elif len(predmets) == 1:
+                        #         json_dict[str(k)]['ВИ_1'] = str(predmets[0])
                             
                         k += 1
 
             else:
+                
                 #res['result']['items']
                 for abbi in res['result']['items']:
                     json_dict[str(k)] = {
@@ -92,23 +107,19 @@ def itmo_parser():
                                     'Согласие': 'ДА' if abbi['send_agreement'] else 'НЕТ',
                                     'Оригинал': 'ДА' if abbi['is_send_original'] else 'НЕТ'                            
                                     } 
-                         
-                    if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:   
-                        predmets = [i for i in list(abbi['disciplines_scores'].values()) if str(i).isdigit()]
-                        if len(predmets) == 3:
-                            json_dict[str(k)]['ВИ_1'] = str(predmets[0])
-                            json_dict[str(k)]['ВИ_2'] = str(predmets[1])
-                            json_dict[str(k)]['ВИ_3'] = str(predmets[2])
-                        elif len(predmets) == 2:
-                            json_dict[str(k)]['ВИ_1'] = str(predmets[0])
-                            json_dict[str(k)]['ВИ_2'] = str(predmets[1])
-                        elif len(predmets) == 1:
-                            json_dict[str(k)]['ВИ_1'] = str(predmets[0])
-                            
+
+
+                    if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:
+                            for keys_disp, values_disp in abbi['disciplines_scores'].items():
+                                if 'матем' in str(keys_disp).lower():
+                                    json_dict[str(k)]['ВИ_1'] = str(values_disp)
+                                elif 'русс' in str(keys_disp).lower():
+                                    json_dict[str(k)]['ВИ_3'] = str(values_disp)
+                                else:
+                                    json_dict[str(k)]['ВИ_2'] = str(values_disp)
+
+        
                     k += 1    
-
-
-
 
            
     with open('./out_json/itmo.json', 'w', encoding='utf-8') as out_file:
