@@ -17,7 +17,7 @@ for oop in oop_s:
             global, (SELECT id, ВУЗ, УП, Основа_обучения, СНИЛС_УК, Конкурс, СУММА, ВИ_1, ВИ_2, ВИ_3, ROW_NUMBER() OVER () AS НОМЕР
     		        FROM global
     		        WHERE УП = '{oop}'
-    		        ORDER BY Конкурс = 'Без ВИ' DESC, Основа_обучения LIKE '%квота%' DESC, Основа_обучения = 'Госбюджетная' DESC, Основа_обучения = 'Договорная', СУММА DESC
+    		        ORDER BY Основа_обучения = 'Госбюджетная' DESC, Конкурс = 'СК' DESC, Конкурс = 'ОП' DESC, Конкурс = 'ЦК' DESC, Конкурс = 'БВИ' DESC, Основа_обучения = 'Контракт', СУММА DESC
                     ) AS query_in
             SET global.НОМЕР = query_in.НОМЕР
             WHERE (global.id = query_in.id);'''
