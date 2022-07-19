@@ -69,7 +69,8 @@ def itmo_parser():
                                     json_dict[str(k)]['ВИ_3'] = str(values_disp)
                                 else:
                                     json_dict[str(k)]['ВИ_2'] = str(values_disp)
-
+                        for i in range(1, 4):
+                            if json_dict[str(k)]['ВИ_'+str(i)] == "None": json_dict[str(k)]['ВИ_'+str(i)] = "0"
                         # if abbi['disciplines_scores'] != None and len(abbi['disciplines_scores'])>0:   
                         #     predmets = [i for i in list(abbi['disciplines_scores'].values()) if str(i).isdigit()]
                         #     if len(predmets) == 3:
@@ -118,7 +119,8 @@ def itmo_parser():
                                 else:
                                     json_dict[str(k)]['ВИ_2'] = str(values_disp)
 
-        
+                    for i in range(1, 4):
+                        if json_dict[str(k)]['ВИ_'+str(i)] == "None": json_dict[str(k)]['ВИ_'+str(i)] = "0"
                     k += 1    
 
            
