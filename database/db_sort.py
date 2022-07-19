@@ -8,6 +8,17 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
+try:
+    mycursor.execute('ALTER TABLE global ADD COLUMN УП VARCHAR(255) AFTER ОП')
+except:
+    pass
+# mycursor.execute('UPDATE global '
+#                  'SET УП = CONCAT(ВУЗ, ' ', ОП) '
+#                  'WHERE id >= 0')
+try:
+    mycursor.execute('ALTER TABLE global ADD COLUMN НОМЕР INT AFTER id')
+except:
+    pass
 mycursor.execute('SELECT DISTINCT УП from global')
 t = mycursor.fetchall()
 oop_s = [t[i][0] for i in range(len(t))]
