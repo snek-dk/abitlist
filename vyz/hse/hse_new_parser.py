@@ -1,8 +1,17 @@
 import openpyxl
 
 
-def insert_into_dict(state, field_of_study, ed_program, form_of_education, ed_principle, snils, entrance, ege, vi_1,
-                     vi_2, vi_3, vi_4=None, vi_5=None, more=0, orig='Нет', doc='Нет'):
+def insert_into_dict(state, field_of_study, ed_program, form_of_education, ed_principle, snils, entrance, ege, more,
+                     orig, doc):
+    vi_1, vi_2, vi_3 = ege[0], ege[1], ege[2]
+    if len(ege) == 4:
+        vi_4 = ege[3]
+    else:
+        vi_4 = None
+    if len(ege) == 5:
+        vi_5 = ege[4]
+    else:
+        vi_5 = None
     entrant = {
         'ВУЗ': 'ВШЭ' + state,
         'Направление': field_of_study,
@@ -22,6 +31,7 @@ def insert_into_dict(state, field_of_study, ed_program, form_of_education, ed_pr
         'Согласие': doc,
         'Оригинал': orig
     }
+    return entrant
 
 
 book = openpyxl.open(r'C:\Users\dmitr\PycharmProjects\abitlist\vyz\hse\tables\moscow\Актер.xlsx', read_only=True)
@@ -46,8 +56,12 @@ to_save = dict()
 print(sheet[18][2].value)
 for row in range(18, sheet.max_row):
     parsed_data = []
-    for column in range(0,(len(needed_columns) - 1) * 2, 2):
+    for column in range(0, (len(needed_columns) - 1) * 2, 2):
         parsed_data.append(sheet[row][column].value)
         print(sheet[row][column].value is not None, sheet[row][column].value)
-    print(parsed_data[1::6])
+    print(parsed_data[1:6])
+    print(parsed_data)
+    print(parsed_data[-8:])
+    print(parsed_data[6:-8])
+    print(insert_into_dict(*parsed_data[1:6], *parsed_data[6:-8], *parsed_data[-8:-4]))
     break

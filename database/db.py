@@ -70,9 +70,9 @@ class abitlist:
         query_for_insert = f"INSERT INTO global {self.form_for_insert} VALUES "
         query_for_insert += '(' + '%s,' * (len(self.form_for_insert.split(',')) - 1) + '%s)'
         self.mycursor.execute(query_for_insert, self.to_needed_form(student))
-
-        if self.commit:
-            mydb.commit()
+        #
+        # if self.commit:
+        #     mydb.commit()
 
     def sqlUpdate(self, student, query_for_update=None):
         query_for_update = f"UPDATE global SET СУММА = {student['СУММА']}, СУММА_БЕЗ_ИД = {student['СУММА_БЕЗ_ИД']}," \
@@ -82,8 +82,8 @@ class abitlist:
                            f" AND (id >= 0)"  # в одном вузе каждое ОП уникальное, так что WHERE по ОП жестче, чем по направлению; id >= 0 для SQL safe update
         self.mycursor.execute(query_for_update)
 
-        if self.commit:
-            mydb.commit()
+        # if self.commit:
+        #     mydb.commit()
 
     def row_is_in_table(self, student):
         self.mycursor.execute(f"SELECT EXISTS(SELECT id FROM global WHERE (ОП = '{student['ОП']}')"
@@ -97,3 +97,4 @@ class abitlist:
                 self.sqlInsert(self.students[index])
             else:
                 self.sqlUpdate(self.students[index])
+        mydb.commit()
