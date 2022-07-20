@@ -137,6 +137,6 @@ for link in links:
             }
         k += 1
 
-with open('./out_json/spbsu.json', 'w', encoding='utf-8') as fp:
+with open('../../out_json/spbsu31.json', 'w', encoding='utf-8') as fp:
     json.dump(needed_data, fp, indent=4, ensure_ascii=False)
 print('DONE\n')
