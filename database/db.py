@@ -86,8 +86,8 @@ class abitlist:
             mydb.commit()
 
     def row_is_in_table(self, student):
-        self.mycursor.execute(f"SELECT EXISTS(SELECT id FROM global WHERE (ОП = '{student['ОП']}')"
-                              f"AND (СНИЛС_УК = '{student['СНИЛС_УК']}') AND (ВУЗ = '{student['ВУЗ']}'))")
+        self.mycursor.execute(f"SELECT EXISTS(SELECT id FROM global WHERE (ОП = '{student['ОП']}') "
+                              f"AND (СНИЛС_УК = '{student['СНИЛС_УК']}') AND (ВУЗ = '{student['ВУЗ']}')")
         return self.mycursor.fetchone()[0]
 
     def process_the_data(self):
