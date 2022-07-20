@@ -19,10 +19,10 @@ try:
     mycursor.execute('ALTER TABLE global ADD COLUMN НОМЕР INT AFTER id')
 except:
     pass
+mycursor.execute("UPDATE global SET УП = CONCAT(ВУЗ, ' ', ОП)")
 mycursor.execute('SELECT DISTINCT УП from global')
 t = mycursor.fetchall()
 oop_s = [t[i][0] for i in range(len(t))]
-
 for oop in oop_s:
     query = f'''UPDATE
             global, (SELECT id, ВУЗ, УП, Основа_обучения, СНИЛС_УК, Конкурс, СУММА, ВИ_1, ВИ_2, ВИ_3, ROW_NUMBER() OVER () AS НОМЕР

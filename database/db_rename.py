@@ -45,4 +45,15 @@ for each in to_change:
 mycursor.execute(f"UPDATE global "
                  f"SET Конкурс = 'БВИ', Основа_обучения = 'Госбюджет' "
                  f"WHERE (id >= 0) AND (Основа_обучения = 'госбюджет БВИ')")
+mycursor.execute(f"UPDATE global "
+                 f"SET Согласие = 'Нет' "
+                 f"WHERE (id >= 0) AND (Согласие in ('НЕТ','нет'))")
+mycursor.execute(f"UPDATE global "
+                 f"SET Оригинал = 'Нет' "
+                 f"WHERE (id >= 0) AND (Согласие in ('НЕТ','нет'))")
+mycursor.execute(f"UPDATE global "
+                 f"SET Согласие = 'Да' "
+                 f"WHERE (id >= 0) AND (Согласие in ('ДА','да'))")
+mycursor.execute(f"DELETE FROM global WHERE (Конкурс = NULL) AND (id >= 0)")
+
 mydb.commit()
