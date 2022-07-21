@@ -1,7 +1,6 @@
 import os, requests, json
 from bs4 import BeautifulSoup
 
-
 def letu_parser():
     print('LETU')
     json_dict = dict()
