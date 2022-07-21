@@ -2,12 +2,10 @@ import json, time, requests, os
 
 def itmo_parser():
     '''Parsing itmo site'''
-    print('ITMO')
-    with open('url_id.json', 'r', encoding='utf-8') as input_id:
+    #print('ITMO')
+    with open('vyz/itmo/url_id.json', 'r', encoding='utf-8') as input_id:
         urls_id = json.load(input_id)['id_fak']
     k = 0
-    os.chdir('..')
-    os.chdir('..') 
     json_dict = dict()
     name_qu = {'without_entry_tests':'БВИ',
                'by_unusual_quota':'ОП',
@@ -37,7 +35,7 @@ def itmo_parser():
                 print('ссылка битая')
                 continue
             if len(res['result'].keys()) == 7:
-               print(fakultet, type_o, k) ## debug!!! 
+               #print(fakultet, type_o, k) ## debug!!! 
                for quota in name_qu.keys():
                    for abbi in res['result'][quota]:
                                                       
@@ -46,9 +44,9 @@ def itmo_parser():
                                     'Направление': fakultet,
                                     'ОП': fakultet,
                                     'Форма_обучения': 'очная',
-                                    'Основа_обучения': (name_o[type_o] + ' ' + name_qu[quota]).strip(),
+                                    'Основа_обучения': name_o[type_o].strip(),
                                     'СНИЛС_УК': trans_snils(abbi['snils'], abbi['case_number']),
-                                    'Конкурс': abbi['exam_type'],
+                                    'Конкурс': name_qu[quota].strip(),
                                     'СУММА': str(abbi['total_scores']) if abbi['total_scores'] != None else '0',
                                     'СУММА_БЕЗ_ИД': str(int(abbi['total_scores'] if abbi['total_scores'] != None else 0) - int(abbi['ia_scores'] if abbi['ia_scores']!= None else 0)),
                                     'ВИ_1': '0',
@@ -96,7 +94,7 @@ def itmo_parser():
                                     'Форма_обучения': 'очная',
                                     'Основа_обучения': 'контракт',
                                     'СНИЛС_УК': trans_snils(abbi['snils'], abbi['case_number']),
-                                    'Конкурс': abbi['exam_type'],
+                                    'Конкурс': name_qu[quota].strip(),
                                     'СУММА': str(abbi['total_scores']) if abbi['total_scores'] != None else '0',
                                     'СУММА_БЕЗ_ИД': str(int(abbi['total_scores'] if abbi['total_scores'] != None else 0) - int(abbi['ia_scores'] if abbi['ia_scores']!= None else '0')),
                                     'ВИ_1': '0',
@@ -126,7 +124,7 @@ def itmo_parser():
            
     with open('./out_json/itmo.json', 'w', encoding='utf-8') as out_file:
         json.dump(json_dict, out_file,indent=4, ensure_ascii=False)
-    print('DONE\n')
+    #print('DONE\n')
 
 itmo_parser()
 
