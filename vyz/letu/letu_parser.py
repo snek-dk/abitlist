@@ -1,10 +1,36 @@
 import os, requests, json
 from bs4 import BeautifulSoup
 
-
 def letu_parser():
     print('LETU')
     json_dict = dict()
+    sort_score = {
+        "01.03.02" : 'рми',
+        "09.03.01" : 'мри',
+        "09.03.02" : 'мри',
+        "09.03.04" : 'мри',
+        "10.05.01" : 'мри',
+        "11.03.01" : 'мри',
+        "11.03.02" : 'мри',
+        "11.03.03" : 'мри',
+        "11.03.04" : 'мри',
+        "11.05.01" : 'мри',
+        "12.03.01" : 'мри',
+        "12.03.04" : 'мри',
+        "13.03.02" : 'мир',
+        "15.03.06" : 'мри',
+        "20.03.01" : 'мри',
+        "27.03.02" : 'мри',
+        "27.03.03" : 'мри',
+        "27.03.04" : 'мри',
+        "27.03.05" : 'мри',
+        "28.03.01" : 'мри',
+        "42.03.01": '',
+        "45.03.02": ''
+    }
+
+#Управление в технических системах. Автоматика и робототехнические системы 27.03.04 мир
+#key_words = Автоматика
 
     k = 0
 
@@ -45,6 +71,23 @@ def letu_parser():
                             'Согласие': data[12],
                             'Оригинал': data[11]
                         }
+                        
+                        order_score = sort_score[fak_num]
+
+                        if fak_num not in ("27.03.04", "42.03.01", "45.03.02"):
+
+                            if order_score == 'рми':
+                                s1, s2, s3 = [json_dict[str(k)]['ВИ_' + str(j)] for j in range(1,4)]
+                                json_dict[str(k)]['ВИ_1'], json_dict[str(k)]['ВИ_2'], json_dict[str(k)]['ВИ_3'] = s2, s3, s1
+
+                            elif order_score == 'мри':
+                                s1, s2, s3 = [json_dict[str(k)]['ВИ_' + str(j)] for j in range(1,4)]
+                                json_dict[str(k)]['ВИ_1'], json_dict[str(k)]['ВИ_2'], json_dict[str(k)]['ВИ_3'] = s1, s3, s2
+
+                        elif fak_num == "27.03.04" and "Автоматика" not in fak_name:
+
+                            s1, s2, s3 = [json_dict[str(k)]['ВИ_' + str(j)] for j in range(1,4)]
+                            json_dict[str(k)]['ВИ_1'], json_dict[str(k)]['ВИ_2'], json_dict[str(k)]['ВИ_3'] = s1, s3, s2
 
                         k += 1
     os.chdir('..')
