@@ -1,5 +1,6 @@
 import json, time, requests, os
 
+
 def itmo_parser():
     '''Parsing itmo site'''
     #print('ITMO')
