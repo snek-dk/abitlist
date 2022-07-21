@@ -45,7 +45,7 @@ print('SPBSU')
 # spbsu = db.abitlist(students=None, commit=True)
 links = get_all_foses()
 k = 0
-needed_data = dict()
+needed_data = []
 # print(links)
 links.remove('https://cabinet.spbu.ru/Lists/1k_EntryLists/list_d3c5b730-178a-45a8-8a4a-6548218144b8.html')
 num = '0123456789'
@@ -76,7 +76,7 @@ for link in links:
         # print(some_data)
         items = more(some_data)
         if ed_principle == 'Госбюджетная':
-            needed_data[str(k)] = {
+            needed_data.append({
                 'ВУЗ': 'СПбГУ',
                 'Направление': field_of_study,
                 'ОП': ed_program,
@@ -94,9 +94,9 @@ for link in links:
                 'ИД': vi(some_data[-2]),
                 'Согласие': some_data[-1],
                 'Оригинал': some_data[-1]
-            }
+            })
         elif ed_principle == 'Договорная':
-            needed_data[str(k)] = {
+            needed_data.append({
                 'ВУЗ': 'СПбГУ',
                 'Направление': field_of_study,
                 'ОП': ed_program,
@@ -114,9 +114,9 @@ for link in links:
                 'ИД': vi(some_data[-2]),
                 'Согласие': some_data[-1],
                 'Оригинал': some_data[-1]
-            }
+            })
         else:
-            needed_data[str(k)] = {
+            needed_data.append({
                 'ВУЗ': 'СПбГУ',
                 'Направление': field_of_study,
                 'ОП': ed_program,
@@ -134,9 +134,10 @@ for link in links:
                 'ИД': some_data[-1],
                 'Согласие': 'КВОТА',
                 'Оригинал': 'КВОТА'
-            }
+            })
         k += 1
+    print(ed_program, k)
 
-with open('../../out_json/spbsu31.json', 'w', encoding='utf-8') as fp:
+with open('../../out_json/spbsu_new.json', 'w', encoding='utf-8') as fp:
     json.dump(needed_data, fp, indent=4, ensure_ascii=False)
 print('DONE\n')
