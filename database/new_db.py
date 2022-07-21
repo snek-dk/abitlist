@@ -9,7 +9,7 @@ mydb = mysql.connector.connect(
 )
 
 
-def sqlInsert(to_insert, name='test'):
+def sqlInsert(to_insert, name='global'):
     args = to_insert
     query = f'''
         INSERT INTO {name} (ВУЗ, Направление,ОП,Форма_обучения,Основа_обучения,СНИЛС_УК,Конкурс,СУММА,СУММА_БЕЗ_ИД,ВИ_1,ВИ_2,ВИ_3,ВИ_4,ВИ_5,ИД,Согласие,Оригинал)
@@ -43,16 +43,15 @@ def sqlInsert(to_insert, name='test'):
 
 # with open('../out_json/spbsu_new.json', encoding='utf-8') as fp:
 #     to_insert = json.load(fp)
-
-with open('../out_json/itmo.json', encoding='utf-8') as fp:
-    to_insert = json.load(fp)
-
-mycursor = mydb.cursor()
-
-data = []
-
-for j in range(len(to_insert)):
-    data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
-t = str(data).replace('[', '').replace(']', '').replace("'", '')
-mycursor.execute(sqlInsert(t))
-mydb.commit()
+for i in range(51):
+    if str(i) not in('41', '42', '44'):
+        with open(f"C:\\Users\\dmitr\\Desktop\\mirea\\МИРЭА{i}.json", encoding='utf-8') as fp:
+            to_insert = json.load(fp)
+        mycursor = mydb.cursor()
+        s = str(to_insert[0]).replace("'", '"').replace('None', 'null')
+        data = []
+        for j in range(len(to_insert)):
+            data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
+        t = str(data).replace('[', '').replace(']', '').replace("'", '')
+        mycursor.execute(sqlInsert(t))
+        mydb.commit()
