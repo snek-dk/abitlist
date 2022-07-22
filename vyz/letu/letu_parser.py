@@ -2,7 +2,7 @@ import os, requests, json
 from bs4 import BeautifulSoup
 
 def letu_parser():
-    print('LETU')
+    #print('LETU')
     json_dict = dict()
     sort_score = {
         "01.03.02" : 'рми',
@@ -34,7 +34,7 @@ def letu_parser():
 
     k = 0
 
-    with open('source.json', 'r', encoding='utf-8') as input_file:
+    with open('vyz/letu/source.json', 'r', encoding='utf-8') as input_file:
         input_json = json.load(input_file)
 
     for type_o in input_json.keys():
@@ -90,12 +90,10 @@ def letu_parser():
                             json_dict[str(k)]['ВИ_1'], json_dict[str(k)]['ВИ_2'], json_dict[str(k)]['ВИ_3'] = s1, s3, s2
 
                         k += 1
-    os.chdir('..')
-    os.chdir('..')
 
     with open('./out_json/letu.json', 'w', encoding='utf-8') as out_file:
         json.dump(json_dict, out_file, indent=4, ensure_ascii=False)
-    print('DONE\n')
+    #print('DONE\n')
 
 
 letu_parser()
