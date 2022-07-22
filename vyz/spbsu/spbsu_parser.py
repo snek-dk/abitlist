@@ -2,7 +2,7 @@ import requests
 import os
 from bs4 import BeautifulSoup
 import json
-
+import time
 
 def save_file_at_dir(dir_path: str, filename: str, file_content, mode='wb'):
     os.makedirs(dir_path, exist_ok=True)
@@ -50,7 +50,15 @@ needed_data = []
 links.remove('https://cabinet.spbu.ru/Lists/1k_EntryLists/list_d3c5b730-178a-45a8-8a4a-6548218144b8.html')
 num = '0123456789'
 for link in links:
-    page = BeautifulSoup(requests.get(link).content.decode('utf-8'), "lxml")
+    try:
+        page = BeautifulSoup(requests.get(link).content.decode('utf-8'), "lxml")
+    except:       
+        time.sleep(0.2)
+        try:
+            page = BeautifulSoup(requests.get(link).content.decode('utf-8'), "lxml")
+        except:
+            print(link)
+            continue
     persons = page.find('tbody').find_all('tr')
 
     head_data = page.find('p').find_all('b')
@@ -138,6 +146,6 @@ for link in links:
         k += 1
     #print(ed_program, k)
 
-with open('../../out_json/spbsu_new.json', 'w', encoding='utf-8') as fp:
+with open('./out_json/spbsu.json', 'w', encoding='utf-8') as fp:
     json.dump(needed_data, fp, indent=4, ensure_ascii=False)
 #print('DONE\n')

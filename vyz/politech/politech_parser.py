@@ -1,5 +1,6 @@
 ﻿import requests
 import json
+import time
 from bs4 import BeautifulSoup
 requests.packages.urllib3.disable_warnings()
 
@@ -7,7 +8,7 @@ url_temp = 'https://enroll.spbstu.ru/enroll-list/'
 with open('./vyz/politech/id_url.json', 'r', encoding='utf-8') as input_file:
     url_id = json.load(input_file).values()
 
-json_dict = dict()
+json_dict = list()
 
 
 def get_base_edu(base_edu):
@@ -42,12 +43,12 @@ j = 0
 for url in url_id:
     try:
         res = requests.get(url_temp + url, verify=False)
-    except:
-        print(url_temp + url)
+    except:        
         time.sleep(0.2)
         try:
             res = requests.get(url_temp + url, verify=False)
-        except:
+        except:           
+            print(url_temp + url)
             continue
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, "html.parser")
@@ -65,7 +66,7 @@ for url in url_id:
                 snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12]
             except:
                 snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12] + ['']
-            json_dict[str(j)] = {
+            json_dict.append({
 
                 'ВУЗ': 'Политех',
                 'Направление': (id_fak + " " + name_fak),
@@ -84,7 +85,7 @@ for url in url_id:
                 'ИД': str(score_id),
                 'Согласие': "Да" if soglasie == '✓' else "Нет",
                 'Оригинал': "Да" if original == 'Оригинал' else "Нет"
-            }
+            })
             j += 1
 
 with open('out_json/politech.json', 'w', encoding='utf-8') as out_file:
