@@ -35,7 +35,7 @@ for spec in special:
             'ОП': spec,
             'Форма_обучения': 'Очная',
             'Основа_обучения': 'Госбюджет' if url[-2:] != '15' else 'Контракт',
-            'СНИЛС УК': cols[0] if cols[0] else None,
+            'СНИЛС_УК': cols[0] if cols[0] else None,
             'Конкурс': conc,
             'СУММА': cols[4] if cols[4] else None,
             'СУММА_БЕЗ_ИД': cols[2] if cols[2] else None,
