@@ -74,7 +74,7 @@ def spbpu_parser(url):
                 'СНИЛС_УК': snils,
                 'Конкурс': get_konkurs(base_edu, bvi),
                 'СУММА': get_sum_with_id(base_edu, bvi, sum_with_id),
-                'СУММА_БЕЗ_ИД': sum_without_id,
+                'СУММА_БЕЗ_ИД': sum_without_id.strip(),
                 'ВИ_1': str(v1) if len(str(v1)) != 0 else '0',
                 'ВИ_2': str(v2) if len(str(v2)) != 0 else '0',
                 'ВИ_3': str(v3) if len(str(v3)) != 0 else '0',
