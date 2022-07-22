@@ -7,7 +7,6 @@ CONN = http.client.HTTPSConnection("misis.ru")
 special, data = {}, {}
 cols = []
 content = ''
-k = 0
 
 
 CONN.request('GET', '/applicants/admission/progress/baccalaureate-and-specialties/list-of-applicants/')
@@ -21,7 +20,7 @@ for spec in special:
     parsed = html.fromstring(content)
     for row in parsed.findall('.//*/table/tbody/tr'):
         cols = [i.text_content() for i in row.findall('td')]
-        data[str(k)] = {
+        data.append({
             'ВУЗ': 'МИСИС',
             'Направление': spec,
             'ОП': spec,
@@ -38,8 +37,7 @@ for spec in special:
             'ИД': cols[8],
             'Согласие': STATE[cols[9]],
             'Оригинал': STATE[cols[10]]
-        }
-        k += 1
+        })
         
 CONN.close()
 with open('./out_json/misis.json', 'w', encoding='utf-8') as fp:
