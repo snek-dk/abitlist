@@ -42,7 +42,7 @@ def letu_parser():
         for faks_of_type_o in input_json[type_o].keys():
 
             for fak in input_json[type_o][faks_of_type_o]:
-                print(*list(map(lambda st: st.strip().replace('_', ' '), fak))[:2], k)
+                #print(*list(map(lambda st: st.strip().replace('_', ' '), fak))[:2], k)
                 fak_num, fak_name, fak_url = map(lambda st: st.strip().replace('_', ' '), fak)
 
                 r = requests.get(fak_url)
