@@ -34,7 +34,7 @@ def get_sum_with_id(base_edu, bvi, sum_with_id):
     return '310'
 
 
-def politech_parser(url):
+def spbpu_parser(url):
 
     temp_dict = list()
     url_temp = 'https://enroll.spbstu.ru/enroll-list/'
@@ -66,7 +66,7 @@ def politech_parser(url):
                 snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12] + ['']
             temp_dict.append({
 
-                'ВУЗ': 'Политех',
+                'ВУЗ': 'СПбПУ',
                 'Направление': (id_fak + " " + name_fak),
                 'ОП': (id_fak + " " + name_fak),
                 'Форма_обучения': form_edu,  # .lower().capitalize(),
@@ -75,12 +75,12 @@ def politech_parser(url):
                 'Конкурс': get_konkurs(base_edu, bvi),
                 'СУММА': get_sum_with_id(base_edu, bvi, sum_with_id),
                 'СУММА_БЕЗ_ИД': sum_without_id,
-                'ВИ_1': str(v1),
-                'ВИ_2': str(v2),
-                'ВИ_3': str(v3),
+                'ВИ_1': str(v1) if str(v1) != '' else '0',
+                'ВИ_2': str(v2) if str(v3) != '' else '0',
+                'ВИ_3': str(v2) if str(v3) != '' else '0',
                 'ВИ_4': None,
                 'ВИ_5': None,
-                'ИД': str(score_id),
+                'ИД': str(score_id).strip(),
                 'Согласие': "Да" if soglasie == '✓' else "Нет",
                 'Оригинал': "Да" if original == 'Оригинал' else "Нет"
             })
@@ -89,15 +89,15 @@ def politech_parser(url):
 
 if __name__ == '__main__':
 
-    with open('./vyz/politech/id_url.json', 'r', encoding='utf-8') as input_file:
+    with open('./vyz/spbpu/id_url.json', 'r', encoding='utf-8') as input_file:
         url_id = json.load(input_file).values()
     #Pool(число одновременных потоков), по-умолчанию использует все потоки
     with Pool() as p:
-        temp_dict = list(p.map(politech_parser, [url for url in url_id]))
+        temp_dict = list(p.map(spbpu_parser, [url for url in url_id]))
 
     json_dict = list()
     for nested_list in temp_dict:
         json_dict.extend(nested_list)
         
-    with open('out_json/politech.json', 'w', encoding='utf-8') as out_file:
+    with open('out_json/spbpu.json', 'w', encoding='utf-8') as out_file:
         json.dump(json_dict, out_file, indent=4, ensure_ascii=False)
