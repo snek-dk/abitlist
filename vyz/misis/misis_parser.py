@@ -14,7 +14,7 @@ CONN.request('GET', '/applicants/admission/progress/baccalaureate-and-specialtie
 content = CONN.getresponse().read().decode('utf-8')
 parsed = html.fromstring(content)
 table = parsed.findall('.//*/table/tbody/tr/td/a')
-special = {x.text_content(): x.get('href').lstrip('.') for x in table}
+special = {' '.join(x.text_content().split()): x.get('href').lstrip('.') for x in table}
 for spec in special:
     CONN.request('GET',
                  f'/applicants/admission/progress/baccalaureate-and-specialties/list-of-applicants{special[spec]}')
