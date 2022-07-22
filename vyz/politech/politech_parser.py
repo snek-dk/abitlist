@@ -1,84 +1,103 @@
-from re import U
-import requests, json, os
+﻿import requests
+import json
+import time
+from bs4 import BeautifulSoup
+from multiprocessing import Pool
+requests.packages.urllib3.disable_warnings()
 
-url_temp = ['https://enroll.spbstu.ru/back/api/', '?trajectory=1']
-level_edu = {'Бакалавр': '&training_level=2'}  # , 'Специалитет':'&training_level=5'}
-count = 0
-temp_dict = dict()
 
-for keys_level_edu, values_level_edu in level_edu.items():
-    url = ''.join(url_temp[0] + 'formEducation' + url_temp[1])
-    parametrs_url = [values_level_edu]
-    res = requests.get(url + ''.join(parametrs_url), verify=False).json()
-    form_edu = {i['form_education_translate'][0]['name']: '&form_education=' + str(i['id']) for i in res}
+def get_base_edu(base_edu):
+    if base_edu == 'бюджет':
+        return 'Госбюджет'
+    elif base_edu == 'контракт':
+        return 'Контракт'
+    return 'Госбюджет'
 
-    for keys_form_edu, values_form_edu in form_edu.items():
-        url = ''.join(url_temp[0] + 'statements/formPayments' + url_temp[1])
-        if len(parametrs_url) == 2:
-            parametrs_url[1] = values_form_edu
-        else:
-            parametrs_url.append(values_form_edu)
-        res = requests.get(url + ''.join(parametrs_url), verify=False).json()
-        gfa = {i['translate'][0]['name']: '&form_payment=' + str(i['id']) for i in res}
 
-        for keys_gfa, values_gfa in gfa.items():
-            url = ''.join(url_temp[0] + 'faculty' + url_temp[1])
-            if len(parametrs_url) == 3:
-                parametrs_url[-1] = values_gfa
-            else:
-                parametrs_url.append(values_gfa)
-            res = requests.get(url + ''.join(parametrs_url), verify=False).json()
-            instituts = {i['faculty_translate'][0]['name'].replace('\xa0', ' '): '&faculty=' + str(i['id']) for i in
-                         res}
+def get_konkurs(base_edu, bvi):
+    if base_edu in ('бюджет', 'контракт') and bvi != '✓':
+        return 'ОК'
+    elif base_edu in ('бюджет', 'контракт') and bvi == '✓':
+        return 'БВИ'
+    elif base_edu == 'целевое':
+        return 'ЦК'
+    elif base_edu == 'спецквота':
+        return 'СК'
+    return 'ОП'
 
-            for key_insituts, values_instituts in instituts.items():
-                url = ''.join(url_temp[0] + 'direction-trainings' + url_temp[1])
-                if len(parametrs_url) == 4:
-                    parametrs_url[-1] = values_instituts
-                else:
-                    parametrs_url.append(values_instituts)
-                res = requests.get(url + ''.join(parametrs_url), verify=False).json()
-                dir_edu = {i['translate'][0]['name']: '&direction_training=' + str(i['id']) for i in res}
 
-                for key_dir_edu, values_dir_edu in dir_edu.items():
-                    if len(parametrs_url) == 5:
-                        parametrs_url[-1] = values_dir_edu
-                    else:
-                        parametrs_url.append(values_dir_edu)
+def get_sum_with_id(base_edu, bvi, sum_with_id):
+    if base_edu in ('бюджет', 'контракт'):
+        return str(sum_with_id)
+    elif bvi != '✓':
+        return str(sum_with_id)
+    return '310'
 
-                    url = 'https://enroll.spbstu.ru/back/api/statements/lists-applicants?' + ''.join(parametrs_url)[1:] + '&benefits=0&page=1&per_page=5&trajectory=1'
 
-                    res = requests.get(url, verify=False).json()['data']
+def politech_parser(url):
 
-                    for abb in res:
-                        # snils = abb['users']['snils']
-                        # print(parametrs_url)
-                        # abb['ege']["result_ege"]
-                        # temp_dict[str(count)] = {
-                        #            'ВУЗ': 'Политех',
-                        #            'Направление': (fak_num + ' ' + fak_name).strip(),
-                        #           'ОП': (fak_num + ' ' + fak_name).strip(),
-                        #          'Форма_обучения': keys_form_edu,
-                        #         'Основа_обучения': keys_gfa,
-                        #        'СНИЛС_УК': abb['users']['snils']
-                        #           'Конкурс': data[3],
-                        #          'СУММА': str(data[4]),
-                        #         'СУММА_БЕЗ_ИД': str(data[5]),
-                        #        'ВИ_1': ,
-                        #      'ВИ_2': str(data[7]),
-                        #       'ВИ_3': str(data[8]),
-                        #           'ВИ_4': None,
-                        #          'ВИ_5': None,
-                        #         'ИД': str(data[9]),
-                        #        'Согласие': data[12],
-                        #       'Оригинал': data[11]
-                        # }
+    temp_dict = list()
+    url_temp = 'https://enroll.spbstu.ru/enroll-list/'
+    try:
+        res = requests.get(url_temp + url, verify=False)
+    except:
+        time.sleep(0.2)
+        try:
+            res = requests.get(url_temp + url, verify=False)
+        except:
+            print(url_temp + url)
+            return
+    res.encoding = 'utf-8'
+    soup = BeautifulSoup(res.text, "html.parser")
+    k = 0
 
-                        temp_dict[str(count)] = abb
-                        count += 1
+    id_fak, name_fak, form_edu, base_edu = (url[24::].split(') ')[0].split('_')[1:-1])
+    for i in soup.findAll('tr'):  # , {'class': 'R9'}):
 
-                        print(count)
+        k += 1
 
-print(len(temp_dict))
-with open('vyz/politech/out.json', 'w', encoding='utf-8') as out_file:
-    json.dump(temp_dict, out_file, ensure_ascii=False, indent=4)
+        if k >= 25:
+            data = i.text.strip().split('\n')
+            if not(len(data) > 10):
+                continue
+            try:
+                snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12]
+            except:
+                snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12] + ['']
+            temp_dict.append({
+
+                'ВУЗ': 'Политех',
+                'Направление': (id_fak + " " + name_fak),
+                'ОП': (id_fak + " " + name_fak),
+                'Форма_обучения': form_edu,  # .lower().capitalize(),
+                'Основа_обучения': get_base_edu(base_edu),
+                'СНИЛС_УК': snils,
+                'Конкурс': get_konkurs(base_edu, bvi),
+                'СУММА': get_sum_with_id(base_edu, bvi, sum_with_id),
+                'СУММА_БЕЗ_ИД': sum_without_id,
+                'ВИ_1': str(v1),
+                'ВИ_2': str(v2),
+                'ВИ_3': str(v3),
+                'ВИ_4': None,
+                'ВИ_5': None,
+                'ИД': str(score_id),
+                'Согласие': "Да" if soglasie == '✓' else "Нет",
+                'Оригинал': "Да" if original == 'Оригинал' else "Нет"
+            })
+    return temp_dict
+
+
+if __name__ == '__main__':
+
+    with open('./vyz/politech/id_url.json', 'r', encoding='utf-8') as input_file:
+        url_id = json.load(input_file).values()
+    #Pool(число одновременных потоков), по-умолчанию использует все потоки
+    with Pool() as p:
+        temp_dict = list(p.map(politech_parser, [url for url in url_id]))
+
+    json_dict = list()
+    for nested_list in temp_dict:
+        json_dict.extend(nested_list)
+        
+    with open('out_json/politech.json', 'w', encoding='utf-8') as out_file:
+        json.dump(json_dict, out_file, indent=4, ensure_ascii=False)
