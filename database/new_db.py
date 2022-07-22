@@ -55,13 +55,14 @@ if len(mycursor.fetchall()) == 0:
 else:
     print(f'Table {name} already exists!')
 
-with open('../out_json/letu.json', encoding='utf-8') as fp:
+with open('../out_json/misis.json', encoding='utf-8') as fp:
     to_insert = json.load(fp)
 # print(to_insert)
 data = []
 for j in range(len(to_insert)):
     data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
-t = str(data).replace('[', '').replace(']', '').replace("'", '')
+t = str(data).replace('[', '').replace(']', '').replace("'", '').replace('//','').replace('xa0','').replace('\\','')
+print(t)
 mycursor.execute(sqlInsert(t))
 mydb.commit()
 
