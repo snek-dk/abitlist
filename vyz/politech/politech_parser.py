@@ -101,4 +101,3 @@ if __name__ == '__main__':
         
     with open('out_json/politech.json', 'w', encoding='utf-8') as out_file:
         json.dump(json_dict, out_file, indent=4, ensure_ascii=False)
-    print('Done')
