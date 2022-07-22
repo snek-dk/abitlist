@@ -1,4 +1,4 @@
-import os, requests, json
+import os, requests, json, time
 from bs4 import BeautifulSoup
 
 def letu_parser():
@@ -45,7 +45,15 @@ def letu_parser():
                 #print(*list(map(lambda st: st.strip().replace('_', ' '), fak))[:2], k)
                 fak_num, fak_name, fak_url = map(lambda st: st.strip().replace('_', ' '), fak)
 
-                r = requests.get(fak_url)
+                try:
+                    r = requests.get(fak_url)
+                except:
+                    print(fak_url)
+                    time.sleep(0.2)
+                    try:                   
+                        r = requests.get(fak_url)
+                    except:
+                        continue
                 soup = BeautifulSoup(r.text, "html.parser")
 
                 for teg in soup.findAll('tr'):
