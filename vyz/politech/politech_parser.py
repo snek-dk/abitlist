@@ -40,7 +40,15 @@ def get_sum_with_id(base_edu, bvi, sum_with_id):
 
 j = 0
 for url in url_id:
-    res = requests.get(url_temp + url, verify=False)
+    try:
+        res = requests.get(url_temp + url, verify=False)
+    except:
+        print(url_temp + url)
+        time.sleep(0.2)
+        try:
+            res = requests.get(url_temp + url, verify=False)
+        except:
+            continue
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, "html.parser")
     k = 0
@@ -54,8 +62,7 @@ for url in url_id:
             if not(len(data) > 10):
                 continue
             try:
-                snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[
-                    1:12]
+                snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12]
             except:
                 snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12] + ['']
             json_dict[str(j)] = {
