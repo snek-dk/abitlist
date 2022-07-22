@@ -40,7 +40,7 @@ for spec in special:
             'ВИ_5': None,
             'ИД': cols[3],
             'Согласие': cols[6],
-            'Оригинал': [cols[7]]
+            'Оригинал': cols[7]
         })
 CONN.close()
 with open('./out_json/guap.json', 'w', encoding='utf-8') as fp:
