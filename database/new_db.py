@@ -41,17 +41,37 @@ def sqlInsert(to_insert, name='global'):
     return query
 
 
-# with open('../out_json/spbsu_new.json', encoding='utf-8') as fp:
-#     to_insert = json.load(fp)
-for i in range(51):
-    if str(i) not in('41', '42', '44'):
-        with open(f"C:\\Users\\dmitr\\Desktop\\mirea\\МИРЭА{i}.json", encoding='utf-8') as fp:
-            to_insert = json.load(fp)
-        mycursor = mydb.cursor()
-        s = str(to_insert[0]).replace("'", '"').replace('None', 'null')
-        data = []
-        for j in range(len(to_insert)):
-            data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
-        t = str(data).replace('[', '').replace(']', '').replace("'", '')
-        mycursor.execute(sqlInsert(t))
-        mydb.commit()
+mycursor = mydb.cursor()
+name = 'global'
+params = '(id INTEGER PRIMARY KEY AUTO_INCREMENT, ВУЗ VARCHAR(64), Направление VARCHAR(255), ОП VARCHAR(255),'
+params += 'Форма_обучения VARCHAR(128), Основа_обучения VARCHAR(128), СНИЛС_УК VARCHAR(128), Конкурс VARCHAR(128),'
+params += 'СУММА INT, СУММА_БЕЗ_ИД INT, ВИ_1 INT, ВИ_2 INT, ВИ_3 INT, ВИ_4 INT, ВИ_5 INT,'
+params += 'ИД INT, СОГЛАСИЕ VARCHAR(5), ОРИГИНАЛ VARCHAR(5))'
+mycursor.execute(f"SHOW TABLES LIKE '{name}'")
+if len(mycursor.fetchall()) == 0:
+    mycursor.execute(f'CREATE TABLE {name} {params}')
+    print(f'TABLE {name} created!')
+    mydb.commit()
+else:
+    print(f'Table {name} already exists!')
+
+with open('../out_json/spbpu.json', encoding='utf-8') as fp:
+    to_insert = json.load(fp)
+# print(to_insert)
+data = []
+for j in range(len(to_insert)):
+    data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
+t = str(data).replace('[', '').replace(']', '').replace("'", '')
+mycursor.execute(sqlInsert(t))
+mydb.commit()
+
+# for i in range(51):
+#     if str(i) not in ('41', '42', '44'):
+#         with open(f"C:\\Users\\dmitr\\Desktop\\mirea\\МИРЭА{i}.json", encoding='utf-8') as fp:
+#             to_insert = json.load(fp)
+#         data = []
+#         for j in range(len(to_insert)):
+#             data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
+#         t = str(data).replace('[', '').replace(']', '').replace("'", '')
+#         mycursor.execute(sqlInsert(t))
+#         mydb.commit()
