@@ -28,7 +28,7 @@ for spec in special:
             'ОП': spec,
             'Форма_обучения': 'Заочная' if ('Горное дело' in spec) else 'Очная',
             'Основа_обучения': 'Госбюджет',
-            'СНИЛС УК': cols[2] if cols[2] else None,
+            'СНИЛС_УК': cols[2] if cols[2] else None,
             'Конкурс': TERMS[cols[11].split(';')[0]],
             'СУММА': cols[4],
             'СУММА_БЕЗ_ИД': str(int(cols[4]) - int(cols[8])),
