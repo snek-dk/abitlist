@@ -46,7 +46,7 @@ def spbpu_parser(url):
             res = requests.get(url_temp + url, verify=False)
         except:
             print(url_temp + url)
-            return
+            return []
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, "html.parser")
     k = 0
