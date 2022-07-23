@@ -12,10 +12,15 @@ if __name__ == '__main__':
     rest = ['spbsu', 'itmo', 'mirea', 'hse']
     count = len(os.listdir('vyz')) - len(rest)
     list_vyz = list()
-    for folder in os.listdir('./vyz'):
-        if folder in rest:
+    for name_vyz in os.listdir('./vyz'):
+        if name_vyz in rest:
             continue
-        list_vyz.append('vyz/' + folder + '/' + folder + '_parser.py')
+        path = 'vyz/' + name_vyz + '/'
+        for file in os.listdir(path):
+            name, exten  = file.split('.')
+            if name == name_vyz + '_parser':
+                list_vyz.append(path + name + '.' + exten)
+                break       
 
     with Pool(count) as p:
         p.map(start_parser, list_vyz)
