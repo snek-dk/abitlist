@@ -50,10 +50,13 @@ mycursor.execute(f"UPDATE global "
                  f"WHERE (id >= 0) AND (Согласие in ('НЕТ','нет'))")
 mycursor.execute(f"UPDATE global "
                  f"SET Оригинал = 'Нет' "
-                 f"WHERE (id >= 0) AND (Согласие in ('НЕТ','нет'))")
+                 f"WHERE (id >= 0) AND (Оригинал in ('НЕТ','нет'))")
 mycursor.execute(f"UPDATE global "
                  f"SET Согласие = 'Да' "
                  f"WHERE (id >= 0) AND (Согласие in ('ДА','да'))")
+mycursor.execute(f"UPDATE global "
+                 f"SET Оригинал = 'Да' "
+                 f"WHERE (id >= 0) AND (Оригинал in ('ДА','да'))")
 mycursor.execute(f"DELETE FROM global WHERE (Конкурс = NULL) AND (id >= 0)")
-
+mycursor.execute("UPDATE global SET СУММА = 310, Основа_обучения = 'Госбюджет', Конкурс = 'ОП' WHERE Основа_обучения = 'Госбюджетная (Особая квота)' AND Конкурс = 'Без ВИ' AND id >= 0")
 mydb.commit()
