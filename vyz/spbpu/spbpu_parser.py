@@ -64,6 +64,8 @@ def spbpu_parser(url):
                 snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12]
             except:
                 snils, sum_with_id, sum_without_id, v1, v2, v3, score_id, pp, bvi, original, soglasie = data[1:12] + ['']
+            if '****' in snils:
+                continue
             temp_dict.append({
 
                 'ВУЗ': 'СПбПУ',
