@@ -16,7 +16,7 @@ for suff in SUFF:
         S.request('GET', url)
         content = S.getresponse().read()
         parsed = html.fromstring(content)
-        spec = parsed.findall('.//h3')[1].text
+        spec = parsed.findall('.//h3')[1].text.replace('"', '').replace('\\', '')
         for row in parsed.findall('.//table/tbody/tr'):
             cols = [i.text for i in row.findall('td')]
             conc = TERMS[url[-2:]]
