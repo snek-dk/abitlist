@@ -71,7 +71,7 @@ def spbpu_parser(url):
                 'ОП': (id_fak + " " + name_fak),
                 'Форма_обучения': form_edu,  # .lower().capitalize(),
                 'Основа_обучения': get_base_edu(base_edu),
-                'СНИЛС_УК': snils,
+                'СНИЛС_УК': snils if len(snils) > 0 else None,
                 'Конкурс': get_konkurs(base_edu, bvi),
                 'СУММА': get_sum_with_id(base_edu, bvi, sum_with_id),
                 'СУММА_БЕЗ_ИД': sum_without_id.strip(),
@@ -80,7 +80,7 @@ def spbpu_parser(url):
                 'ВИ_3': str(v3) if len(str(v3)) != 0 else '0',
                 'ВИ_4': None,
                 'ВИ_5': None,
-                'ИД': str(score_id).strip(),
+                'ИД': str(score_id).strip() if len(str(score_id).strip()) > 0 else '0',
                 'Согласие': "Да" if soglasie == '✓' else "Нет",
                 'Оригинал': "Да" if original == 'Оригинал' else "Нет"
             })
