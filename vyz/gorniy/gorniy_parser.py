@@ -15,12 +15,12 @@ def to_data(abitur):
             'Конкурс': kon,
             'СУММА': abitur['sum_ball'] if abitur['sum_ball'] and abitur['sum_ball'].isdigit() else '0',
             'СУММА_БЕЗ_ИД': str(abitur['ege_ball']) if str(abitur['ege_ball']).isdigit() else '0',
-            'ВИ_1': str(abitur['ege_other']),
-            'ВИ_2': str(abitur['ege_math']),
-            'ВИ_3': str(abitur['ege_russ']),
+            'ВИ_1': str(abitur['ege_other']) if str(abitur['ege_other']).isdigit() else '0',
+            'ВИ_2': str(abitur['ege_math']) if str(abitur['ege_math']).isdigit() else '0',
+            'ВИ_3': str(abitur['ege_russ']) if str(abitur['ege_russ']).isdigit() else '0',
             'ВИ_4': None,
             'ВИ_5': None,
-            'ИД': str(abitur['id_ball']),
+            'ИД': str(abitur['id_ball']) if str(abitur['id_ball']).isdigit() else '0',
             'Согласие': 'Да' if abitur['rek_sogl'] else 'Нет',
             'Оригинал': 'Да'if abitur['orig'] == 'Оригинал' else 'Нет'
         })
