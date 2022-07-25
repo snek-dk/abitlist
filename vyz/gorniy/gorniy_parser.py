@@ -1,7 +1,7 @@
 import http.client
 import json
 data = []
-KON = {'Без': 'БВИ', 'Целевая': 'ЦП', 'Общий': 'ОК', 'По': 'ОК', 'Особое': 'ОП', 'Специальная': 'СК'}
+KON = {'Без': 'БВИ', 'Целевая': 'ЦП', 'Общий': 'ОК', 'По': 'ОК', 'Особое': 'ОП', 'Специальная': 'СК', 'Организации': 'ЦП'}
 def to_data(abitur):
     spec = f'{abitur["okso"]} {" ".join(abitur["spec_name"].split()[1:]).capitalize()}'
     kon = KON[abitur['konkurs'].split()[0]] if len(abitur['konkurs'].split()) else 'ОК'
