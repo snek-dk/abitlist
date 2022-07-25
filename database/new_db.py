@@ -55,7 +55,7 @@ if len(mycursor.fetchall()) == 0:
 else:
     print(f'Table {name} already exists!')
 
-with open('../out_json/spbpu.json', encoding='utf-8') as fp:
+with open('../out_json/gorniy.json', encoding='utf-8') as fp:
     to_insert = json.load(fp)
 # print(to_insert)
 data = []
