@@ -14,7 +14,7 @@ def to_data(abitur):
             'СНИЛС_УК': abitur['snilsnumber_p'] if abitur['snilsnumber_p'] else None,
             'Конкурс': kon,
             'СУММА': abitur['sum_ball'] if abitur['sum_ball'] and abitur['sum_ball'].isdigit() else '0',
-            'СУММА_БЕЗ_ИД': str(abitur['ege_ball']),
+            'СУММА_БЕЗ_ИД': str(abitur['ege_ball']) if str(abitur['ege_ball']).isdigit() else '0',
             'ВИ_1': str(abitur['ege_other']),
             'ВИ_2': str(abitur['ege_math']),
             'ВИ_3': str(abitur['ege_russ']),
