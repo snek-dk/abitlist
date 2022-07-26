@@ -14,22 +14,22 @@ nn_list = [[nn_tds[i].next_element.next_element.text, nn_tds[i].a.text] for i in
 perm_list = [[perm_tds[i].next_element.next_element.text, perm_tds[i].a.text] for i in range(len(perm_tds))]
 spb_list = [[spb_tds[i].next_element.next_element.text, spb_tds[i].a.text] for i in range(len(spb_tds))]
 for each in moscow_list:
-    name = each[0].replace(',', '').replace(' ', '_').replace('"', '')
+    name = each[0].replace(',', '').replace(' ', '_').replace('"', '').replace('\xa0','')
     file = requests.get(each[1]).content
     with open(rf'tables/moscow/{name}.xlsx', "wb") as f:
         f.write(file)
 for each in nn_list:
-    name = each[0].replace(',', '').replace(' ', '_').replace('"', '')
+    name = each[0].replace(',', '').replace(' ', '_').replace('"', '').replace('\xa0','')
     file = requests.get(each[1]).content
     with open(rf'tables/nn/{name}.xlsx', "wb") as f:
         f.write(file)
 for each in perm_list:
-    name = each[0].replace(',', '').replace(' ', '_').replace('"', '')
+    name = each[0].replace(',', '').replace(' ', '_').replace('"', '').replace('\xa0','')
     file = requests.get(each[1]).content
     with open(rf'tables/perm/{name}.xlsx', "wb") as f:
         f.write(file)
 for each in spb_list:
-    name = each[0].replace(',', '').replace(' ', '_').replace('"', '')
+    name = each[0].replace(',', '').replace(' ', '_').replace('"', '').replace('\xa0','')
     file = requests.get(each[1]).content
     with open(rf'tables/spb/{name}.xlsx', "wb") as f:
         f.write(file)
