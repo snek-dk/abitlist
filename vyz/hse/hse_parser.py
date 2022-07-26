@@ -1,141 +1,101 @@
-import requests
-import pandas as pd
-from bs4 import BeautifulSoup
-from openpyxl import load_workbook
 import json
-from time import sleep
+import openpyxl
+from os import listdir
+from os.path import isfile, join
 
 
-class HTMLTableParser:
-
-    def parse_url(self, url):
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'lxml')
-        return [(table, self.parse_html_table(table)) \
-                for table in soup.find_all('table')]
-
-    def parse_html_table(self, table):
-        n_columns = 0
-        n_rows = 0
-        column_names = []
-
-        # Find number of rows and columns
-        # we also find the column titles if we can
-        for row in table.find_all('tr'):
-
-            # Determine the number of rows in the table
-            td_tags = row.find_all('td')
-            if len(td_tags) > 0:
-                n_rows += 1
-                if n_columns == 0:
-                    # Set the number of columns for our table
-                    n_columns = len(td_tags)
-
-            # Handle column names if we find them
-            th_tags = row.find_all('th')
-            if len(th_tags) > 0 and len(column_names) == 0:
-                for th in th_tags:
-                    column_names.append(th.get_text())
-
-        # Safeguard on Column Titles
-        if len(column_names) > 0 and len(column_names) != n_columns:
-            raise Exception("Column titles do not match the number of columns")
-
-        columns = column_names if len(column_names) > 0 else range(0, n_columns)
-        df = pd.DataFrame(columns=columns,
-                          index=range(0, n_rows))
-        row_marker = 0
-        for row in table.find_all('tr'):
-            column_marker = 0
-            columns = row.find_all('td')
-            for column in columns:
-                df.iat[row_marker, column_marker] = column.get_text()
-                column_marker += 1
-            if len(columns) > 0:
-                row_marker += 1
-
-        # Convert to float if possible
-        for col in df:
-            try:
-                df[col] = df[col].astype(float)
-            except ValueError:
-                pass
-
-        return df
+def insert_into_dict(privileges_w_snils, subjects, other_data, main_data):
+    abit_id = privileges_w_snils[0]
+    entrance_types = ['БВИ', 'ОП', 'ЦП', 'СК', 'ОК']
+    if privileges_w_snils[1:].count('Да') > 0:
+        entrance = entrance_types[privileges_w_snils.index('Да')]
+    else:
+        entrance = entrance_types[-1]
+    while len(subjects) < 5:
+        subjects.append(None)
+    city, field_of_study, ed_program = main_data[0], main_data[1], main_data[2]
+    try:
+        bez_id = str(int(other_data[1]) - int(other_data[0]))
+    except:
+        bez_id = other_data[1]
+    entrant = {
+        'ВУЗ': 'ВШЭ' + ' ' + city,
+        'Направление': field_of_study,
+        'ОП': ed_program,
+        'Форма_обучения': "очная",
+        'Основа_обучения': other_data[2],
+        'СНИЛС_УК': abit_id,
+        'Конкурс': entrance,
+        'СУММА': other_data[1] if other_data[1] else "0",
+        'СУММА_БЕЗ_ИД': bez_id if bez_id else "0",
+        'ВИ_1': subjects[0] if subjects[0] else "0",
+        'ВИ_2': subjects[1] if subjects[1] else "0",
+        'ВИ_3': subjects[2] if subjects[2] else "0",
+        'ВИ_4': subjects[3] if subjects[3] else "0",
+        'ВИ_5': subjects[4] if subjects[4] else "0",
+        'ИД': other_data[0] if other_data[0] else "0",
+        'Согласие': other_data[-1],
+        'Оригинал': other_data[-2]
+    }
+    return entrant
 
 
-hp = HTMLTableParser()
-table = hp.parse_url("https://ba.hse.ru/stat2022")[0][1]
-# чтение всех направлений
-for i in range(1,len(table)):
-    name = table[0][i]
-    link = table[1][i]
-    name_file = link.split("/")[-1]
-    # скачивание файла
-    response = requests.get(link)
-    open(name_file, "wb").write(response.content)
-    wb = load_workbook(str(name_file))
-    sheet = wb.active
-    ed_program = "_".join(sheet.cell(row=2, column=3).value.split()[2:]).replace('"','')
-    field_of_study = "_".join(sheet.cell(row=3, column=3).value.split()[1:])
-    # спросить с какой буквы форма обучения Б или М
-    form_of_education = sheet.cell(row=4, column=3).value.split()[0]
-    col = 18
-    collected_data = dict()
-    count = 1
-    while True:
-        snils = sheet.cell(row=col, column=3).value
-        if snils == None: break
-        contest = 'По результатам ВИ' if sheet.cell(row=col, column=5).value == "Нет" else "БВИ"
-        all_sum = sheet.cell(row=col, column=21).value if sheet.cell(row=col, column=21).value is not None else 0
-        sum_without_id = (int(sheet.cell(row=col, column=21).value) if sheet.cell(row=col,
-                                                                                  column=21).value is not None else 0) - (
-                             int(sheet.cell(row=col, column=19).value) if sheet.cell(row=col,
-                                                                                     column=19).value is not None else 0)
-        math = sheet.cell(row=col, column=13).value if sheet.cell(row=col, column=13).value is not None else 0
-        inf = sheet.cell(row=col, column=15).value if sheet.cell(row=col, column=15).value is not None else 0
-        rus = sheet.cell(row=col, column=17).value if sheet.cell(row=col, column=17).value is not None else 0
-        id = int(sheet.cell(row=col, column=19).value) if sheet.cell(row=col, column=19).value is not None else 0
-        agreement = sheet.cell(row=col, column=27).value
-        original = sheet.cell(row=col, column=25).value
-        ed_principle = sheet.cell(row=col, column=23).value
-        preemptive_right = sheet.cell(row=col, column=29).value
-        result = {'ВУЗ': 'НИУ ВШЭ',
-                  'Направление': field_of_study,
-                  'ОП': ed_program,
-                  'Форма_обучения': form_of_education,
-                  'Основа_обучения': 'госбюджетная',
-                  snils: {'Конкурс': contest,
-                                     'Приоритет': None,
-                                     'СУММА': int(all_sum),
-                                     'СУММА_БЕЗ_ИД': int(sum_without_id),
-                                     'ВИ1': int(math),
-                                     'ВИ2': int(inf),
-                                     'ВИ3': int(rus),
-                                     'ИД': int(id),
-                                     'Согласие':agreement,
-                                     'Оригинал': original,
-                                     'ПП': preemptive_right}}
+to_save = []
+cities = ["moscow", "nn", "perm", "spb"]
+for city in cities:
+    mypath = rf"C:\Users\dmitr\PycharmProjects\abitlist\vyz\hse\tables\{city}"
+    names = [f[:-5] for f in listdir(mypath) if isfile(join(mypath, f))]
+    print(city)
+    for name in names:
+        print(name)
+        path = rf"C:\Users\dmitr\PycharmProjects\abitlist\vyz\hse\tables\{city}\{name}.xlsx"
+        book = openpyxl.open(path, read_only=True, data_only=True)
+        sheet = book.active
+        needed_columns = set(sheet[15][column].value for column in range(0, sheet.max_column))
+        main_data = [path.split('\\')[-2], path.split('\\')[-1][:-5].replace('_', ' '),
+                     path.split('\\')[-1][:-5].replace('_', ' ')]
+        # to_save = []
 
-        if ed_principle == "Б":
-            result['Основа_обучения'] = 'госбюджетная'
-            collected_data[count] = result.copy()
-            count += 1
-        if ed_principle == "К; Б" or ed_principle == "Б; К":
-            result['Основа_обучения'] = 'госбюджетная'
-            collected_data[count] = result.copy()
-            count += 1
-            result['Основа_обучения'] = 'контракт'
-            collected_data[count] = result.copy()
-            count += 1
-        if ed_principle == "К":
-            result['Основа_обучения'] = 'контракт'
-            collected_data[count] = result.copy()
-            count += 1
-        col += 1
+        for row in sheet.iter_rows(min_row=18, max_col=len(needed_columns) * 2, max_row=sheet.max_row,
+                                   min_col=2):  # range(18, sheet.max_row):
+            parsed_data = []
+            flag = False
+            for cell in row:  # range(0, (len(needed_columns) - 1) * 2, 2):
+                if flag:
+                    parsed_data.append(cell.value)
+                flag = not flag
+            # print(parsed_data)
+            privileges_w_snils = parsed_data[:5]
+            # print(privileges_w_snils)
+            other_data = parsed_data[-9:-4]
+            # print(other_data)
+            subjects = parsed_data[6:-8]
+            # print(subjects)
+            if (other_data[2] is None) or (other_data[1] == "Сумма конкурсных баллов"):
+                # print(parsed_data)
+                # print(row)
+                continue
+            if len(other_data[2]) > 1:
+                other_data[2] = "Госбюджет"
+                to_save.append(
+                    insert_into_dict(privileges_w_snils=privileges_w_snils, subjects=subjects, other_data=other_data,
+                                     main_data=main_data))
+                other_data[2] = "Контракт"
+                to_save.append(
+                    insert_into_dict(privileges_w_snils=privileges_w_snils, subjects=subjects, other_data=other_data,
+                                     main_data=main_data))
+            elif other_data[2] == "Б":
+                other_data[2] = "Госбюджет"
+                to_save.append(
+                    insert_into_dict(privileges_w_snils=privileges_w_snils, subjects=subjects, other_data=other_data,
+                                     main_data=main_data))
+            else:
+                other_data[2] = "Контракт"
+                to_save.append(
+                    insert_into_dict(privileges_w_snils=privileges_w_snils, subjects=subjects, other_data=other_data,
+                                     main_data=main_data))
 
 
-    with open(r"hse" + str(name_file[:-5])+ ".json", 'w') as fp:
-        json.dump(collected_data, fp, indent=4)
-    wb.close()
-    sleep(10)
+
+with open('./out_json/hse.json', 'w', encoding='utf-8') as fp:
+    json.dump(to_save, fp, indent=4, ensure_ascii=False)
