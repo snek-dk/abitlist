@@ -5,6 +5,7 @@ from os import listdir
 from os.path import isfile, join
 import time
 
+
 def get_url():
     mypath = "vyz\mai"
     names = [f for f in listdir(mypath) if isfile(join(mypath, f))]
