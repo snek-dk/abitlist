@@ -43,7 +43,7 @@ def letu_parser():
             for fak in input_json[type_o][faks_of_type_o]:
                 #print(*list(map(lambda st: st.strip().replace('_', ' '), fak))[:2], k)
                 fak_num, fak_name, fak_url = map(lambda st: st.strip().replace('_', ' '), fak)
-
+                fak_url += '-competitive'
                 try:
                     r = requests.get(fak_url)
                 except:                  
