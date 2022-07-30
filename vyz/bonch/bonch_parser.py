@@ -33,6 +33,9 @@ def program_to_save(main_info):
     return program
 
 
+get_the_page()
+
+
 def new_one(main_info, person_info):
     person_to_save = {
         "ВУЗ": "Бонч",
