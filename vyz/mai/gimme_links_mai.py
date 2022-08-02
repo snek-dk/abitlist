@@ -26,5 +26,3 @@ def gimme_links():
                         links_contract.append(
                             (link, s.split('"')[2].replace('>', '').replace('\r', '').replace('\n', ''), i.split('+')[-1]))
     return links_budget, links_contract
-print(gimme_links()[0])
-print(gimme_links()[1])

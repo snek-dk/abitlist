@@ -1,5 +1,6 @@
 import mysql.connector
 import json
+import os
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -48,31 +49,32 @@ params += 'Форма_обучения VARCHAR(128), Основа_обучени
 params += 'СУММА INT, СУММА_БЕЗ_ИД INT, ВИ_1 INT, ВИ_2 INT, ВИ_3 INT, ВИ_4 INT, ВИ_5 INT,'
 params += 'ИД INT, СОГЛАСИЕ VARCHAR(5), ОРИГИНАЛ VARCHAR(5))'
 mycursor.execute(f"SHOW TABLES LIKE '{name}'")
-if len(mycursor.fetchall()) == 0:
+if len(mycursor.fetchall()) != 0:
+    print(f'TABLE {name} already exists!')
+    mycursor.execute(f'DROP TABLE {name}')
+    print(f'TABLE {name} deleted!')
     mycursor.execute(f'CREATE TABLE {name} {params}')
     print(f'TABLE {name} created!')
     mydb.commit()
 else:
-    print(f'Table {name} already exists!')
+    mycursor.execute(f'CREATE TABLE {name} {params}')
+    print(f'TABLE {name} created!')
+    mydb.commit()
 
-with open('../out_json/spbsu.json', encoding='utf-8') as fp:
-    to_insert = json.load(fp)
-# print(to_insert)
-data = []
-for j in range(len(to_insert)):
-    data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
-t = str(data).replace('[', '').replace(']', '').replace('//','').replace('xa0','').replace('\\','').replace("'",'')
-# print(t)
-mycursor.execute(sqlInsert(t))
+abit_dir = os.getcwd().replace('\\database', '')
+out_json_path = abit_dir + '\\out_json'
+for file in os.listdir(out_json_path):
+    path = out_json_path + '\\' + file
+    if '.json' in path:
+        with open(path, encoding='utf-8') as fp:
+            to_insert = json.load(fp)
+        # print(to_insert)
+        data = []
+        for j in range(len(to_insert)):
+            to_insert[j]['Направление'] = to_insert[j]['Направление'][0:100]
+            to_insert[j]['ОП'] = to_insert[j]['ОП']
+            data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
+        t = str(data).replace('[', '').replace(']', '').replace('//', '').replace('xa0', '').replace('\\', '').replace(
+            "'", '')
+        mycursor.execute(sqlInsert(t))
 mydb.commit()
-
-# for i in range(51):
-#     if str(i) not in ('41', '42', '44'):
-#         with open(f"C:\\Users\\dmitr\\Desktop\\mirea\\МИРЭА{i}.json", encoding='utf-8') as fp:
-#             to_insert = json.load(fp)
-#         data = []
-#         for j in range(len(to_insert)):
-#             data.append(str(to_insert[j]).replace("'", '"').replace('None', 'null'))
-#         t = str(data).replace('[', '').replace(']', '').replace("'", '')
-#         mycursor.execute(sqlInsert(t))
-#         mydb.commit()

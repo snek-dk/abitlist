@@ -4,9 +4,9 @@ import json
 
 
 def get_the_page():
-    resp = subprocess.run('curl  "http://priem.sut.ru/new_site/page/competitive_selection.php?a=2" '
-                          '--data-raw "general=101&education_base_to=3&training_form=4&training_type=0&1cunv_groupab=0&action=get_result&rekzach=1" '
-                          '--output bonch.html', stdout=subprocess.PIPE)
+    resp = subprocess.run(
+        'curl "http://priem.sut.ru/new_site/page/competitive_selection.php?a=2" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"  -H "Accept-Language: ru,en;q=0.9"  -H "Cache-Control: max-age=0" -H "Connection: keep-alive" -H "Content-Type: application/x-www-form-urlencoded" -H "DNT: 1" -H "Referer: http://priem.sut.ru/new_site/page/competitive_selection.php?a=2" -H "Upgrade-Insecure-Requests: 1" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.134 YaBrowser/22.7.1.806 Yowser/2.5 Safari/537.36"  --data-raw "general=101&education_base_to=3&training_form=4&training_type=0&1cunv_groupab=0&action=get_result&rekzach=1" --output bonch.html',
+        stdout=subprocess.PIPE)
     return 0
 
 
@@ -101,7 +101,7 @@ for t in page.find_all(class_="table"):
             'Оригинал': abiturient[8].text if abiturient[8].text else None
         }
         persons.append(new_one(main_info, person_info))
-with open(r"C:\Users\dmitr\PycharmProjects\abitlist\out_json\bonch.json", "w", encoding="utf-8") as f:
+with open("./out_json/bonch.json", "w", encoding="utf-8") as f:
     json.dump(persons, f, indent=4, ensure_ascii=False)
-with open(r"C:\Users\dmitr\PycharmProjects\abitlist\out_json\mesta\bonch.json", "w", encoding="utf-8") as f:
-    json.dump(programs, f, indent=4, ensure_ascii=False)
+# with open(r".\out_json\mesta\bonch.json", "w", encoding="utf-8") as f:
+#     json.dump(programs, f, indent=4, ensure_ascii=False)

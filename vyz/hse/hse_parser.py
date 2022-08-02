@@ -45,9 +45,9 @@ cities = ["moscow", "nn", "perm", "spb"]
 for city in cities:
     mypath = rf"C:\Users\dmitr\PycharmProjects\abitlist\vyz\hse\tables\{city}"
     names = [f[:-5] for f in listdir(mypath) if isfile(join(mypath, f))]
-    print(city)
+    # print(city)
     for name in names:
-        print(name)
+        # print(name)
         path = rf"C:\Users\dmitr\PycharmProjects\abitlist\vyz\hse\tables\{city}\{name}.xlsx"
         book = openpyxl.open(path, read_only=True, data_only=True)
         sheet = book.active
