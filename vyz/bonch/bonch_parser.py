@@ -89,18 +89,21 @@ for t in page.find_all(class_="table"):
     abitura = t.find_all('tr')[2:]
     for each_abitur in abitura:
         abiturient = each_abitur.find_all('td')
-        person_info = {
-            'СНИЛС': abiturient[1].text,
-            'СУММА': abiturient[2].text,
-            'СУММА_БЕЗ_ИД': abiturient[3].text,
-            'ВИ_1': abiturient[4].text.split('/')[-3] if abiturient[4].text.split('/')[-3] else "0",
-            'ВИ_2': abiturient[4].text.split('/')[-2] if abiturient[4].text.split('/')[-2] else "0",
-            'ВИ_3': abiturient[4].text.split('/')[-1] if abiturient[4].text.split('/')[-1] else "0",
-            'ИД': abiturient[5].text if abiturient[5].text else "0",
-            'Согласие': abiturient[7].text if abiturient[7].text else None,
-            'Оригинал': abiturient[8].text if abiturient[8].text else None
-        }
-        persons.append(new_one(main_info, person_info))
+        try:
+            person_info = {
+                'СНИЛС': abiturient[1].text,
+                'СУММА': abiturient[2].text,
+                'СУММА_БЕЗ_ИД': abiturient[3].text,
+                'ВИ_1': abiturient[4].text.split('/')[-3] if abiturient[4].text.split('/')[-3] else "0",
+                'ВИ_2': abiturient[4].text.split('/')[-2] if abiturient[4].text.split('/')[-2] else "0",
+                'ВИ_3': abiturient[4].text.split('/')[-1] if abiturient[4].text.split('/')[-1] else "0",
+                'ИД': abiturient[5].text if abiturient[5].text else "0",
+                'Согласие': abiturient[7].text if abiturient[7].text else None,
+                'Оригинал': abiturient[8].text if abiturient[8].text else None
+            }
+            persons.append(new_one(main_info, person_info))
+        except:
+            pass
 with open("./out_json/bonch.json", "w", encoding="utf-8") as f:
     json.dump(persons, f, indent=4, ensure_ascii=False)
 # with open(r".\out_json\mesta\bonch.json", "w", encoding="utf-8") as f:

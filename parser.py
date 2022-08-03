@@ -9,7 +9,7 @@ def start_parser(path):
 if __name__ == '__main__':
     if 'out_json' not in os.listdir():
         os.mkdir('./out_json')
-    rest = ['mai']
+    rest = ['mai','guap']
     count = len(os.listdir('vyz')) - len(rest)
     list_vyz = list()
     for name_vyz in os.listdir('./vyz'):
