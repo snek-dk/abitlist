@@ -12,9 +12,6 @@ try:
     mycursor.execute('ALTER TABLE global ADD COLUMN УП VARCHAR(255) AFTER ОП')
 except:
     pass
-# mycursor.execute('UPDATE global '
-#                  'SET УП = CONCAT(ВУЗ, ' ', ОП) '
-#                  'WHERE id >= 0')
 try:
     mycursor.execute('ALTER TABLE global ADD COLUMN НОМЕР INT AFTER id')
 except:

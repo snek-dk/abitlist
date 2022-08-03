@@ -68,7 +68,6 @@ for file in os.listdir(out_json_path):
     if '.json' in path:
         with open(path, encoding='utf-8') as fp:
             to_insert = json.load(fp)
-        # print(to_insert)
         data = []
         for j in range(len(to_insert)):
             to_insert[j]['Направление'] = to_insert[j]['Направление'][0:100]

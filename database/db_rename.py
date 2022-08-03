@@ -57,6 +57,9 @@ mycursor.execute(f"UPDATE global "
 mycursor.execute(f"UPDATE global "
                  f"SET Оригинал = 'Да' "
                  f"WHERE (id >= 0) AND (Оригинал in ('ДА','да'))")
+mycursor.execute(f"UPDATE global "
+                 f"SET Основа_обучения = 'Госбюджет' "
+                 f"WHERE (id >= 0) AND (Основа_обучения = 'госбюджет')")
 mycursor.execute(f"DELETE FROM global WHERE (Конкурс = NULL) AND (id >= 0)")
 mycursor.execute("UPDATE global SET СУММА = 310, Основа_обучения = 'Госбюджет', Конкурс = 'ОП' WHERE Основа_обучения = 'Госбюджетная (Особая квота)' AND Конкурс = 'Без ВИ' AND id >= 0")
 mydb.commit()
