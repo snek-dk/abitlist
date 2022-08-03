@@ -34,15 +34,12 @@ for i in range(6, 8):
     bachelor_items = bachelor_list.find_all('tr')[1:]
     for each in bachelor_items:
         field_of_study = each.find_all('td')[1].text
-        print(field_of_study)
         link = "https://priem.guap.ru" + each.find('a').attrs["href"].replace('\\', '/')
         field_of_study_page = requests.get(link)
         field_of_study_page.encoding = 'utf-8'
         converted_page = BeautifulSoup(field_of_study_page.text, "lxml")
         program = converted_page.find('h3').text.replace('"', '')
-        print(program)
         abitura = converted_page.find('tbody').find_all('tr')
-
         for each_person in abitura:
             person = each_person.find_all('td')
 
@@ -68,5 +65,5 @@ for i in range(6, 8):
                 "Оригинал": person[8].text if person[8].text else "Нет"
             }
             to_save.append(abiturient_to_dict(person_data))
-with open("./out_json/bonch.json", "w", encoding='utf-8') as f:
+with open("./out_json/guap.json", "w", encoding='utf-8') as f:
     json.dump(to_save, f, ensure_ascii=False)
