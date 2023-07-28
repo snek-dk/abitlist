@@ -85,11 +85,14 @@ for university_id in range(4):
     to_export = []
     main_form["ВУЗ"] += hse_id[university_id]
     for tr in universities[university_id]:
-        if tr.a["href"] == "https://economics.hse.ru/EK_2023":
+        href = tr.a["href"]
+        if href == "https://economics.hse.ru/EK_2023":
             continue
-        print(tr.a["href"])
-        xlsx = io.BytesIO(requests.get(url=tr.a["href"]).content)
-        workbook = openpyxl.load_workbook(xlsx)
+        print(href)
+        current_path = os.getcwd() + '\\xlsx_files\\' + href.split('/')[-1]
+        with open(current_path, "wb") as fp:
+            fp.write(requests.get(url=href).content)
+        workbook = openpyxl.open(current_path, read_only=True, data_only=True)
         worksheet = workbook.active
         needed_columns = [worksheet[15][column].value for column in range(0, worksheet.max_column)]
         program_name = ''
@@ -102,6 +105,7 @@ for university_id in range(4):
                                                                             column].value is not None else program_code
             form_of_education = form_of_education + worksheet[4][column].value if worksheet[4][
                                                                                       column].value is not None else form_of_education
+            print(worksheet[2][column], column)
         program_name = program_name.replace("Образовательная программа ", '', 1)
         program_code = program_code.replace("Направление ", '', 1)
         main_form["НАПРАВЛЕНИЕ"] = program_name
@@ -128,6 +132,6 @@ for university_id in range(4):
             else:
                 full_person_info["ОСНОВА_ОБУЧЕНИЯ"] = "Контракт"
                 to_export.append(full_person_info)
-        xlsx.close()
+        workbook.close()
     with open(os.getcwd() + rf'\{hse_id[university_id]}' + rf'\output.json', 'w') as f:
         json.dump(to_export, f, ensure_ascii=False, indent=4)

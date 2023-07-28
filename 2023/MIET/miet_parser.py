@@ -119,17 +119,16 @@ for program_link in links_of_all_programs:
             contest_type = application[16]
             if contest_type is None:
                 contest_type = "ОК"
-            elif contest_type == "БВИ":
+            elif "БВИ" in contest_type:
                 pass
-            elif contest_type == "ЦП":
+            elif "ЦП" in contest_type:
                 contest_type = "ЦК"
-            elif contest_type == "ОП":
+            elif "ОП" in contest_type:
                 contest_type = "ОТК"
             else:
                 contest_type = "ОСК"
             personal_form["ТИП_КОНКУРСА"] = contest_type
             personal_form["ЕГЭ"] = max(int(personal_form["ЕГЭ_С_ИД"]) - int(personal_form["ИД"]), 0)
-
             to_export.append(get_json_form(main_form, personal_form, amount_of_places))
     else:
         main_form["ОСНОВА_ОБУЧЕНИЯ"] = "Контракт"
