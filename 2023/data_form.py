@@ -3,7 +3,7 @@ import json
 
 
 class JsonOut:
-    def __init__(self, json_data=None, places_data=None, filename=None, debug_mode=None):
+    def __init__(self, json_data=None, filename=None, debug_mode=None):
         if json_data is None:
             json_data = []
         self.basic_information = {
@@ -31,10 +31,6 @@ class JsonOut:
             "ИД": 0
         }
         self.places = {
-            "ВУЗ": '',
-            "НАПРАВЛЕНИЕ": '',
-            "ОП": '',
-            "ФОРМА_ОБУЧЕНИЯ": '',
             "БЮДЖЕТ": 0,
             "КОНТРАКТ": 0
         }
@@ -69,16 +65,11 @@ class JsonOut:
                 print(f"Ошибка в поле '{field}'. Ожидается строковый тип данных, получен тип '{type(value).__name__}'")
                 return False
         for field, value in self.places.items():
-            if field not in ["БЮДЖЕТ", "КОНТРАКТ"]:
-                if not isinstance(value, str):
-                    print(
-                        f"Ошибка в поле '{field}'. Ожидается строковый тип данных, получен тип '{type(value).__name__}'")
-                    return False
-            elif not isinstance(value, int):
+            if not isinstance(value, int):
                 print(
                     f"Ошибка в поле '{field}'. Ожидается целочисленный тип данных, получен тип '{type(value).__name__}'")
                 return False
-
+        print("Данные соответствуют своим типам")
         return True
 
     def complete_form(self):
@@ -93,21 +84,18 @@ class JsonOut:
 
         for field, value in self.personal_information.items():
             export_form[field] = value
+        for field, value in self.places.items():
+            export_form[field] = value
 
         return export_form
 
     def save_json(self):
-        if self.debug_mode:
-            for json_form in self.json_data:
-                if not self.check_json():
-                    "Нужно доработать парсер"
-                    return -1
-                else:
-                    "Все значения правильного типа"
         if type(self.filename) is str:
             indent = 4 if self.debug_mode else None
-            with open(os.getcwd() + rf'\{self.filename}' + rf'\people.json', 'w') as f:
-                json.dump(self.complete_form(), f, ensure_ascii=False, indent=indent)
-            with open(os.getcwd() + rf'\{self.filename}' + rf'\places.json', 'w') as f:
-                json.dump(self.complete_form(), f, ensure_ascii=False, indent=indent)
+            with open(os.getcwd() + '\output.json', 'w', encoding="utf-8") as f:
+                json.dump(self.json_data
+                          
+                          
+                          , f, ensure_ascii=False, indent=indent)
+
         return 0

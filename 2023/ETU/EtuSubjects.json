@@ -1,0 +1,238 @@
+[
+    {
+        "name": "Прикладная математика и информатика",
+        "code": "01.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/ee0043c0-88ce-4a0e-b3be-d46605fd8fd1",
+            "https://lists.priem.etu.ru/public/list/d7c88e9f-ab09-4753-8c99-9496e3906b41"
+        ]
+    },
+    {
+        "name": "Информатика и вычислительная техника",
+        "code": "09.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/36ecfda0-ac8e-454c-94c8-a52caeb40b2a"
+        ]
+    },
+    {
+        "name": "Информатика и вычислительная техника (Компьютерное моделирование и проектирование)",
+        "code": "09.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/5000c3d3-9760-48f9-8407-7145b99a070f",
+            "https://lists.priem.etu.ru/public/list/c9484eea-449e-42aa-bda4-3111b180b1c0"
+        ]
+    },
+    {
+        "name": "Информатика и вычислительная техника (Искусственный интеллект)",
+        "code": "09.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/d0cfe648-716b-46f0-bc72-ea7bb614c855",
+            "https://lists.priem.etu.ru/public/list/47992162-dc4c-419e-bc00-40d05d58f0ac"
+        ]
+    },
+    {
+        "name": "Информационные системы и технологии",
+        "code": "09.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/a7b54fa8-e406-4d90-b191-0c2139930076",
+            "https://lists.priem.etu.ru/public/list/bfcbbd05-a810-4b32-a746-410cd7ba3a64"
+        ]
+    },
+    {
+        "name": "Программная инженерия",
+        "code": "09.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/c5f873a9-4d4c-406f-a81f-c38adbb17e4d",
+            "https://lists.priem.etu.ru/public/list/a5d6e976-8db5-4c67-8fd7-0bc0059a2910"
+        ]
+    },
+    {
+        "name": "Компьютерная безопасность",
+        "code": "10.05.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/0e1be7b0-3575-4e95-bea7-8b4d2211d43f",
+            "https://lists.priem.etu.ru/public/list/536585a4-59a9-4460-9fa1-6e2ca21c534a"
+        ]
+    },
+    {
+        "name": "Радиотехника (Интеллектуальные радиотехнические системы)",
+        "code": "11.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/89bdc388-7b05-408b-94cf-4d27fe43671c",
+            "https://lists.priem.etu.ru/public/list/301c0a38-64ed-4062-93f5-003a37800e72"
+        ]
+    },
+    {
+        "name": "Радиотехника (Системы компьютерного зрения)",
+        "code": "11.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/1f27e716-15a1-4153-8b69-d6345d7f05a7",
+            "https://lists.priem.etu.ru/public/list/9422eabb-2198-4fa1-8dcb-8a5a130207a7"
+        ]
+    },
+    {
+        "name": "Инфокоммуникационные технологии и системы связи",
+        "code": "11.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/65d99c2c-2589-48d6-91e2-fc689ca216e0",
+            "https://lists.priem.etu.ru/public/list/6f0c88a1-afd8-44be-8b22-fa9fe526fac0"
+        ]
+    },
+    {
+        "name": "Конструирование и технология электронных средств",
+        "code": "11.03.03",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/dde80e2e-c45c-463a-bb8e-aad60199dd4c",
+            "https://lists.priem.etu.ru/public/list/dc2ec766-2c0b-4e20-84e3-4a4c08f07fe3"
+        ]
+    },
+    {
+        "name": "Электроника и наноэлектроника",
+        "code": "11.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/85edbc68-8acd-46d6-b03e-dd2450077835",
+            "https://lists.priem.etu.ru/public/list/ed456ee8-ee22-417b-b035-bfa38940d37d"
+        ]
+    },
+    {
+        "name": "Электроника и наноэлектроника",
+        "code": "11.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/5d404e5f-e1e2-4b54-819b-c5349c6f0319"
+        ]
+    },
+    {
+        "name": "Радиоэлектронные системы и комплексы",
+        "code": "11.05.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/d6614da5-f395-4741-ada5-0f285cd6aad7",
+            "https://lists.priem.etu.ru/public/list/f5a6ea21-107f-4291-bd09-2fcf67860314"
+        ]
+    },
+    {
+        "name": "Приборостроение (Информационно-измерительные системы и геоинформационные технологии)",
+        "code": "12.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/a0f0b54a-9703-4d14-9f4f-1bac56278aa3",
+            "https://lists.priem.etu.ru/public/list/d3e3b245-7a12-4345-b95a-4e744c9e00ad"
+        ]
+    },
+    {
+        "name": "Приборостроение (Лазерные, акустические и навигационные системы)",
+        "code": "12.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/3c68150b-7af8-4103-961f-32ade2b013da",
+            "https://lists.priem.etu.ru/public/list/9f65a6d7-5188-460a-9d34-c1ad35109f5d"
+        ]
+    },
+    {
+        "name": "Биотехнические системы и технологии",
+        "code": "12.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/64dd5ff8-ecb1-4aaf-bde0-9b9df5e730e2",
+            "https://lists.priem.etu.ru/public/list/56ac57a8-32e8-4986-9617-7dd0947e4c55"
+        ]
+    },
+    {
+        "name": "Электроэнергетика и электротехника",
+        "code": "13.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/233e5695-b517-4dac-98f9-0578add379de",
+            "https://lists.priem.etu.ru/public/list/5c53ebd9-f2c0-4698-a74d-7140cfeaf718"
+        ]
+    },
+    {
+        "name": "Мехатроника и робототехника",
+        "code": "15.03.06",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/736d5b9e-e5a8-4a5c-9021-1b86b75f117b",
+            "https://lists.priem.etu.ru/public/list/c54a4176-3ea7-45aa-b7fd-930842523da1"
+        ]
+    },
+    {
+        "name": "Техносферная безопасность",
+        "code": "20.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/3f02362c-b458-43d4-a1cf-8263b60da555",
+            "https://lists.priem.etu.ru/public/list/2dba0df2-e724-43ed-b067-51fc6c85fa30"
+        ]
+    },
+    {
+        "name": "Управление качеством",
+        "code": "27.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/cdb7b189-30f2-4312-bdb7-027a354dce80",
+            "https://lists.priem.etu.ru/public/list/64a5bdb3-99b1-45d7-b584-65f7943bb99b"
+        ]
+    },
+    {
+        "name": "Системный анализ и управление",
+        "code": "27.03.03",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/65cd1ba5-6d88-4b67-90dd-6946377686ee",
+            "https://lists.priem.etu.ru/public/list/56713d78-6e73-40d1-af2f-bf879f9260a1"
+        ]
+    },
+    {
+        "name": "Управление в технических системах (Автоматика и робототехнические системы)",
+        "code": "27.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/526a0851-3aa2-4828-bb06-b024cf4e51ec",
+            "https://lists.priem.etu.ru/public/list/67735f23-f65a-4b8e-89e1-62490c8988c5"
+        ]
+    },
+    {
+        "name": "Управление в технических системах (Компьютерные интеллектуальные технологии управления в технических системах)",
+        "code": "27.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/3933eead-073a-49a2-a35e-ac2f718e290a",
+            "https://lists.priem.etu.ru/public/list/0bb4d93f-cdc7-4491-babd-cd188e435653"
+        ]
+    },
+    {
+        "name": "Управление в технических системах",
+        "code": "27.03.04",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/a2112bd0-2d79-4622-9d80-ad525a8cd4c5"
+        ]
+    },
+    {
+        "name": "Инноватика",
+        "code": "27.03.05",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/34e41f73-f3a1-45f4-9d9b-d206c97cd7fb",
+            "https://lists.priem.etu.ru/public/list/287d9dc0-eb3f-4211-b967-420253e10845"
+        ]
+    },
+    {
+        "name": "Нанотехнологии и микросистемная техника",
+        "code": "28.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/52700a93-9eff-4f15-9357-8c6368c52461",
+            "https://lists.priem.etu.ru/public/list/e285081e-d241-4737-92ea-fcc35a80e8d1"
+        ]
+    },
+    {
+        "name": "Менеджмент",
+        "code": "38.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/e4206964-08ff-485f-bf5e-d48a27546b41"
+        ]
+    },
+    {
+        "name": "Реклама и связи с общественностью",
+        "code": "42.03.01",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/2c47e022-a76b-4ce2-b201-3cc9b66c32c2",
+            "https://lists.priem.etu.ru/public/list/97b75b60-0f20-44d0-b7c5-1bfb482ce097"
+        ]
+    },
+    {
+        "name": "Лингвистика",
+        "code": "45.03.02",
+        "url": [
+            "https://lists.priem.etu.ru/public/list/de223201-ccc9-4e99-a71f-4f4889e113f6",
+            "https://lists.priem.etu.ru/public/list/74601ddc-795b-4a65-8167-0f9917f9ab60"
+        ]
+    }
+]
